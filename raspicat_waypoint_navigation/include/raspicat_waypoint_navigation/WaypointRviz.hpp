@@ -21,7 +21,7 @@
 
 #include <pluginlib/class_list_macros.h>
 
-#include "raspicat_navigation/BaseWaypointRviz.hpp"
+#include "raspicat_waypoint_navigation/BaseWaypointRviz.hpp"
 
 namespace raspicat_navigation
 {

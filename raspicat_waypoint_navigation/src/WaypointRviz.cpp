@@ -19,7 +19,7 @@
 #include <tf2/utils.h>
 #include <visualization_msgs/MarkerArray.h>
 
-#include "raspicat_navigation/WaypointRviz.hpp"
+#include "raspicat_waypoint_navigation/WaypointRviz.hpp"
 
 namespace raspicat_navigation
 {

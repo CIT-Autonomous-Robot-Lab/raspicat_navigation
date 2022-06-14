@@ -17,7 +17,7 @@
 #include <ros/ros.h>
 #include <tf2_ros/transform_listener.h>
 
-#include "raspicat_navigation/WaypointNav.hpp"
+#include "raspicat_waypoint_navigation/WaypointNav.hpp"
 
 int main(int argc, char** argv)
 {

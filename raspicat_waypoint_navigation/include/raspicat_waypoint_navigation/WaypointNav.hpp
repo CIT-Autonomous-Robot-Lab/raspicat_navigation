@@ -29,9 +29,9 @@
 #include <dynamic_reconfigure/client.h>
 
 #include <pluginlib/class_loader.hpp>
-#include "raspicat_navigation/BaseWaypointRviz.hpp"
-#include "raspicat_navigation/BaseWaypointServer.hpp"
-#include "raspicat_navigation/WaypointNavHelperPlugin.hpp"
+#include "raspicat_waypoint_navigation/BaseWaypointRviz.hpp"
+#include "raspicat_waypoint_navigation/BaseWaypointServer.hpp"
+#include "raspicat_waypoint_navigation/WaypointNavHelperPlugin.hpp"
 
 #include <vector>
 

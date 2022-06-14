@@ -17,7 +17,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <ros/ros.h>
 
-#include "raspicat_navigation/SlopeObstacleAvoidance.hpp"
+#include "raspicat_waypoint_navigation/SlopeObstacleAvoidance.hpp"
 
 namespace raspicat_navigation
 {

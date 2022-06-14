@@ -22,7 +22,7 @@
 #include <sensor_msgs/LaserScan.h>
 #include <std_srvs/Trigger.h>
 
-#include "raspicat_navigation/WaypointNavHelperPlugin.hpp"
+#include "raspicat_waypoint_navigation/WaypointNavHelperPlugin.hpp"
 
 namespace raspicat_navigation
 {

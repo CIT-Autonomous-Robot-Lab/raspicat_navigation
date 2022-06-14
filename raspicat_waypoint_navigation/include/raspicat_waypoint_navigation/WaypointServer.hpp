@@ -29,7 +29,7 @@
 #include <dwa_local_planner/DWAPlannerConfig.h>
 #include <dynamic_reconfigure/client.h>
 
-#include "raspicat_navigation/BaseWaypointServer.hpp"
+#include "raspicat_waypoint_navigation/BaseWaypointServer.hpp"
 
 namespace raspicat_navigation
 {

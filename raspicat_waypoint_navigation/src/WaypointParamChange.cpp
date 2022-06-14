@@ -1,7 +1,7 @@
 #include <pluginlib/class_list_macros.h>
 #include <ros/ros.h>
 
-#include "raspicat_navigation/BaseWaypointParamChange.hpp"
+#include "raspicat_waypoint_navigation/BaseWaypointParamChange.hpp"
 
 namespace raspicat_navigation
 {

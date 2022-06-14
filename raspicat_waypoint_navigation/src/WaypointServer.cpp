@@ -14,7 +14,7 @@
  *limitations under the License.
  */
 
-#include "raspicat_navigation/WaypointServer.hpp"
+#include "raspicat_waypoint_navigation/WaypointServer.hpp"
 
 namespace raspicat_navigation
 {

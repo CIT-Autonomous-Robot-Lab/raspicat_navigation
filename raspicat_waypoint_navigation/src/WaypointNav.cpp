@@ -22,7 +22,7 @@
 #include <tf/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
-#include "raspicat_navigation/WaypointNav.hpp"
+#include "raspicat_waypoint_navigation/WaypointNav.hpp"
 
 #include <algorithm>
 #include <cmath>
