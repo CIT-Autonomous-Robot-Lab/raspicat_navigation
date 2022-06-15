@@ -5,7 +5,7 @@ top -n 1 -b | head -n 20
 while true; do sleep 10 | top -n 1 -b | head -n 20; done &
 
 # Gazebo launch
-roslaunch raspicat_waypoint_navigation raspicat_tsudanuma_2_19_world.launch \
+roslaunch raspicat_map2gazebo raspicat_tsudanuma_2_19_world.launch \
   x_gazebo:=0.155971128532 y_gazebo:=-0.0254326737864 yaw_gazebo:=0 open_gui:=false &
 sleep 20
 
