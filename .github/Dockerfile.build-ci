@@ -17,4 +17,4 @@ RUN source /opt/ros/melodic/setup.bash && \
   cd /home/catkin_ws && rosdep install -r -y --from-paths --ignore-src . && \
   catkin build
 
-WORKDIR /home/catkin_ws/src/raspicat_waypoint_navigation
+WORKDIR /home/catkin_ws/src/raspicat_navigation/raspicat_waypoint_navigation
