@@ -140,6 +140,7 @@ void WaypointNav::initActionClient()
     ROS_ERROR("move_base Action Server is not active.");
     exit(0);
   }
+  set_initail_robot_pose_.stop();
   ROS_INFO("move_base Action Server is active.");
 }
 
