@@ -16,6 +16,7 @@ waypoints:
       z: 1.502107171059494
     properties:
       - function: attention_speak
+      - function: clear_costmap
       - function: variable_waypoint_radius
         waypoint_radius: 1.0
   - id: 3
