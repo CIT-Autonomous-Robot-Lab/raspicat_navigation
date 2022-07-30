@@ -102,6 +102,7 @@ class WaypointNav
   double waypoint_radius_;
   double vel_trans_;
   dynamic_reconfigure::Client<dwa_local_planner::DWAPlannerConfig> dynamic_reconfigure_client_;
+  bool waypoint_nav_start_;
 };
 
 }  // namespace waypoint_nav
