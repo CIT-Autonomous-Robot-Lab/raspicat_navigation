@@ -47,7 +47,8 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
                             "raspicat_navigation::BaseWaypointRviz"),
       waypoint_nav_helper_loader_("raspicat_waypoint_navigation",
                                   "raspicat_navigation::WaypointNavHelperPlugin"),
-      waypoint_radius_(3.0)
+      waypoint_radius_(3.0),
+      waypoint_nav_start_(true)
 {
   readParam();
   initPub();
@@ -172,6 +173,7 @@ void WaypointNav::initServiceClient()
         if (call_once)
         {
           call_once = false;
+          waypoint_nav_start_ = false;
           Run();
         }
         res.message = "Waypoint Navigation Start";
@@ -193,12 +195,28 @@ void WaypointNav::initServiceClient()
   srv_way_nav_restart_ = nh_.advertiseService<std_srvs::TriggerRequest, std_srvs::TriggerResponse>(
       "way_nav_restart", [&](auto &req, auto &res) {
         ROS_INFO("Called service way_nav_restart.");
-        timer_for_function_.erase("speak_stop");
-        way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_, WaypointNavStatus_);
-        way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
-        res.message = "Waypoint Navigation Restart";
-        res.success = true;
-        return true;
+        if (not waypoint_nav_start_)
+        {
+          timer_for_function_.erase("speak_stop");
+          way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_, WaypointNavStatus_);
+          way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
+          res.message = "Waypoint Navigation Restart";
+          res.success = true;
+          return true;
+        }
+        else
+        {
+          static bool call_once = true;
+          if (call_once)
+          {
+            call_once = false;
+            waypoint_nav_start_ = false;
+            Run();
+          }
+          res.message = "Waypoint Navigation Start";
+          res.success = true;
+          return true;
+        }
       });
 
   waypoint_nav_start_restart_client_["way_nav_restart"] =
@@ -440,6 +458,7 @@ void WaypointNav::WaypointNavStartCb(const std_msgs::EmptyConstPtr &msg)
   if (once_flag)
   {
     once_flag = false;
+    waypoint_nav_start_ = false;
     Run();
   }
 }
