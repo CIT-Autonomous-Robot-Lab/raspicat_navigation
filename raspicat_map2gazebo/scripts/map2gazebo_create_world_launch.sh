@@ -25,7 +25,7 @@ echo -n \
   </include>
 
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" 
-    args="-urdf -model raspicatv2 -x $(arg x_init_pos) -y $(arg y_init_pos) -z $(arg z_init_pos) -Y $(arg yaw_init_pos) -param robot_description"/>
+    args="-urdf -model raspicat -x $(arg x_init_pos) -y $(arg y_init_pos) -z $(arg z_init_pos) -Y $(arg yaw_init_pos) -param robot_description"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <include file="$(find raspicat_gazebo)/launch/raspicat_simulation.launch"/>
