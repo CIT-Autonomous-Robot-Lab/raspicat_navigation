@@ -252,10 +252,10 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>484 29000000</sim_time>
-      <real_time>486 846540452</real_time>
-      <wall_time>1659174387 148723584</wall_time>
-      <iterations>484029</iterations>
+      <sim_time>0</sim_time>
+      <real_time>91 59665928</real_time>
+      <wall_time>1663234791 15011815</wall_time>
+      <iterations>85893</iterations>
       <model name='map_satellite_36.0831592_140.07968_700_700'>
         <pose>216.619 -92.3418 0 0 0 -3.03035</pose>
         <scale>1 1 1</scale>
@@ -282,7 +282,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>31.8134 -96.8309 446.741 0 1.3258 1.5842</pose>
+        <pose>479.328 -62.2667 166.768 9e-06 1.5698 1.61621</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
