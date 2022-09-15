@@ -105,13 +105,13 @@
 
   <!-- Tsukuba -->
   <group if="$(eval world_name=='tsukuba')">
-    <arg name="x_gazebo"    default="-0.8"/>
-    <arg name="y_gazebo"    default="-31.9"/>
-    <arg name="yaw_gazebo"  default="-2.6"/>
+    <arg name="x_gazebo"    default="453.042544981"/>
+    <arg name="y_gazebo"    default="-39.4949665659"/>
+    <arg name="yaw_gazebo"  default="0.0"/>
 
-    <arg name="x_mcl"       default="213.980"/>
-    <arg name="y_mcl"       default="102.940"/>
-    <arg name="a_mcl"       default="-0.016"/>
+    <arg name="x_mcl"       default="0.0"/>
+    <arg name="y_mcl"       default="0.0"/>
+    <arg name="a_mcl"       default="0.0"/>
 
     <!-- Gazebo -->
     <include file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
