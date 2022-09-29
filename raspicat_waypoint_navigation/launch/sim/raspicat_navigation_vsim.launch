@@ -7,7 +7,7 @@
   <arg name="move_forward_only"   default="false"/>
   <arg name="waypoint_navigation" default="true"/>
 
-  <arg name="world_name"          default="tsudanuma_2_19" doc="world_name type [tsudanuma_2_19, tsudanuma, tsukuba]"/>
+  <arg name="world_name"          default="tsudanuma_2_19" doc="world_name type [tsudanuma_2_19, tsudanuma, tsukuba, tsukuba1]"/>
   <arg name="mcl_map_file"        default="$(find raspicat_waypoint_navigation)/config/maps/$(arg world_name)/map_$(arg world_name).yaml"/>
   <arg name="move_base_map_file"  default="$(find raspicat_waypoint_navigation)/config/maps/for_move_base/map_$(arg world_name).yaml"/>
   <arg name="waypoint_yaml_file"  default="$(find raspicat_waypoint_navigation)/config/waypoint/waypoint_$(arg world_name).yaml"/>
@@ -147,6 +147,44 @@
       <param name="initial_pose_a"  value="$(arg a_mcl)"/>
     </node>
   </group>
+
+    <!-- Tsukuba1 -->
+  <group if="$(eval world_name=='tsukuba1')">
+    <arg name="x_gazebo"    default="73.10749118250558"/>
+    <arg name="y_gazebo"    default="34.90994997205043"/>
+    <arg name="yaw_gazebo"  default="3.14"/>
+
+    <arg name="x_mcl"       default="73.005"/>
+    <arg name="y_mcl"       default="35.194"/>
+    <arg name="a_mcl"       default="3.125"/>
+
+    <!-- Gazebo -->
+    <include file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
+      <arg name="x_init_pos"    value="$(arg x_gazebo)"/>
+      <arg name="y_init_pos"    value="$(arg y_gazebo)"/>
+      <arg name="yaw_init_pos"  value="$(arg yaw_gazebo)"/>
+      <arg name="open_gui"      value="$(arg open_gazebo)"/>
+    </include>
+    
+    <!-- Amcl -->
+    <group if="$(eval mcl=='amcl')">
+      <include file="$(find raspicat_waypoint_navigation)/launch/amcl.launch">
+        <arg name="initial_pose_x"  value="$(arg x_mcl)"/>
+        <arg name="initial_pose_y"  value="$(arg y_mcl)"/>
+        <arg name="initial_pose_a"  value="$(arg a_mcl)"/>
+      </include>
+    </group>
+
+    <!-- Emcl2 -->
+    <group if="$(eval mcl=='emcl2')">
+      <include file="$(find raspicat_waypoint_navigation)/launch/emcl2.launch">
+        <arg name="initial_pose_x"  value="$(arg x_mcl)"/>
+        <arg name="initial_pose_y"  value="$(arg y_mcl)"/>
+        <arg name="initial_pose_a"  value="$(arg a_mcl)"/>
+      </include>
+    </group>
+  </group>
+
 
   <!-- Map_server -->
   <node pkg="map_server" name="mcl_map_server" type="map_server" args="$(arg mcl_map_file)"/>
