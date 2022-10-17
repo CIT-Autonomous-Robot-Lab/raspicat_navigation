@@ -41,14 +41,14 @@ waypoints:
       y: 119.863716
     euler_angle:
       z: -1.695789560264848
+    properties:
+      - function: waiting_line
   - id: 8
     position:
       x: 83.177788
       y: 83.954079
     euler_angle:
       z: -1.291877023532324
-    properties:
-      - function: waiting_line
   - id: 9
     position:
       x: 90.709396

@@ -5,6 +5,8 @@ waypoints:
       y: 3.093035
     euler_angle:
       z: -0.004294001990108822
+    properties:
+      - function: waiting_line
   - id: 2
     position:
       x: 62.904152

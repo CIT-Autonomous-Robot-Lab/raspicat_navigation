@@ -35,8 +35,6 @@ waypoints:
       y: 119.269264
     euler_angle:
       z: -1.722873225291638
-    properties:
-      - function: waiting_line
   - id: 7
     position:
       x: 83.265419
@@ -51,6 +49,8 @@ waypoints:
       y: 60.416470
     euler_angle:
       z: -1.622402456029976
+    properties:
+      - function: waiting_line
   - id: 9
     position:
       x: 89.593254
@@ -63,14 +63,14 @@ waypoints:
       y: -9.743534
     euler_angle:
       z: -1.661591769580595
-    properties:
-      - function: waiting_line
   - id: 11
     position:
       x: 82.493774
       y: -33.531914
     euler_angle:
       z: -1.650842329581459
+    properties:
+      - function: waiting_line
   - id: 12
     position:
       x: 74.889511
@@ -83,11 +83,11 @@ waypoints:
       y: -125.620605
     euler_angle:
       z: 3.053974670167617
-    properties:
-      - function: goal
   - id: 14
     position:
       x: -0.618083
       y: -123.653755
     euler_angle:
       z: 3.102364152173496
+    properties:
+      - function: goal
