@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   move_base_msgs
   raspicat_navigation_msgs
-  dynamic_reconfigure
   tf
   pluginlib
   roslib
@@ -50,7 +49,7 @@ target_link_libraries(waypoint_rviz_view ${catkin_LIBRARIES})
 add_library(${PROJECT_NAME}
   src/WaypointServer.cpp
   src/WaypointRviz.cpp
-  src/WaypointParamChange.cpp
+  src/ParamChange.cpp
   src/SlopeObstacleAvoidance.cpp
   src/ClearCostMap.cpp
 )

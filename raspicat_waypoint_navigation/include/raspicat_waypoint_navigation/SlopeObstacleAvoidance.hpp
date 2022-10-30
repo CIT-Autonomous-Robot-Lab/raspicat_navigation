@@ -55,6 +55,7 @@ class SlopeObstacleAvoidance : public raspicat_navigation::WaypointNavHelperPlug
     initServiceServer();
     initTimerCb();
   }
+  void run(std::string param, std::string value) {}
 
   void readParameters();
   void initPubSub();

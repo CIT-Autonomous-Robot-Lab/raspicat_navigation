@@ -26,6 +26,7 @@ class WaypointNavHelperPlugin
  public:
   virtual void initialize(std::string name) = 0;
   virtual void run() = 0;
+  virtual void run(std::string param, std::string value) = 0;
 
   virtual ~WaypointNavHelperPlugin() {}
 

@@ -14,24 +14,29 @@
  *limitations under the License.
  */
 
-#ifndef BASE_WAYPOINT_PARAM_CHANGE_HPP_
-#define BASE_WAYPOINT_PARAM_CHANGE_HPP_
+#ifndef PARAM_CHANGE_HPP_
+#define PARAM_CHANGE_HPP_
 
 #include <ros/ros.h>
 
+#include "raspicat_waypoint_navigation/WaypointNavHelperPlugin.hpp"
+
 namespace raspicat_navigation
 {
-class BaseWaypointParamChange
+class ParamChange : public raspicat_navigation::WaypointNavHelperPlugin
 {
+  ros::NodeHandle nh_, pnh_;
+
  public:
-  virtual void initialize(std::string name) = 0;
-  virtual void run() = 0;
+  void initialize(std::string name) { ROS_INFO("raspicat_navigation::ParamChange initialize"); }
+  void run() { ROS_INFO("raspicat_navigation::ParamChange run"); }
 
-  virtual ~BaseWaypointParamChange() {}
+  void run(std::string param, std::string value);
 
- protected:
-  BaseWaypointParamChange() {}
+  std::vector<std::string> splitSlash(const std::string str);
+  std::string getNodeFromString(const std::vector<std::string> vec);
+  std::string getParamFromString(const std::vector<std::string> vec);
 };
 
 }  // namespace raspicat_navigation
-#endif  // BASE_WAYPOINT_PARAM_CHANGE_HPP_
+#endif  // PARAM_CHANGE_HPP_

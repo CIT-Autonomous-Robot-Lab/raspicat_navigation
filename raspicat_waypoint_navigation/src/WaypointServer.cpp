@@ -14,6 +14,8 @@
  *limitations under the License.
  */
 
+#include <ros/ros.h>
+
 #include "raspicat_waypoint_navigation/WaypointServer.hpp"
 
 namespace raspicat_navigation
@@ -227,6 +229,7 @@ bool WaypointServer::checkDistance(XmlRpc::XmlRpcValue &waypoint_yaml,
     }
     return false;
   }
+  return false;
 }
 
 bool WaypointServer::checkGoalReach(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
@@ -247,6 +250,38 @@ void WaypointServer::eraseTimer(raspicat_navigation_msgs::WaypointNavStatus &Way
     timer_for_function.erase("speak_attention");
 }
 
+std::string WaypointServer::getParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
+{
+  double get_param_double;
+  std::string get_param_string;
+
+  if (pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
+                          get_param_double))
+    return std::to_string(get_param_double);
+  if (pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
+                          get_param_string))
+    return get_param_string;
+}
+
+void WaypointServer::saveParam(ros::NodeHandle &pnh,
+                               raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
+{
+  WaypointNavStatus.servers.param_change.param_name_save.push_back(
+      WaypointNavStatus.functions.param_change.param_name.back());
+  WaypointNavStatus.servers.param_change.param_value_save.push_back(getParam(WaypointNavStatus));
+
+  ROS_ERROR("get_param");
+  std::cout << WaypointNavStatus.functions.param_change.param_name.back() << "\n";
+  std::cout << getParam(WaypointNavStatus) << "\n";
+  ROS_ERROR("get_param");
+}
+
+void WaypointServer::clearSaveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
+{
+  WaypointNavStatus.servers.param_change.param_name_save.clear();
+  WaypointNavStatus.servers.param_change.param_value_save.clear();
+}
+
 void WaypointServer::setFalseWaypointFunction(
     raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
 {
@@ -262,8 +297,7 @@ void WaypointServer::setFalseWaypointFlag(
 }
 
 void WaypointServer::setWaypointFunction(
-    dynamic_reconfigure::Client<dwa_local_planner::DWAPlannerConfig> &dynamic_reconfigure_client,
-    XmlRpc::XmlRpcValue &waypoint_yaml,
+    ros::NodeHandle &pnh, XmlRpc::XmlRpcValue &waypoint_yaml,
     raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
 {
   if (waypoint_yaml[WaypointNavStatus.waypoint_current_id].hasMember("properties"))
@@ -319,19 +353,23 @@ void WaypointServer::setWaypointFunction(
       }
 
       else if (waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["function"] ==
-               "variable_speed")
+               "param_change")
       {
-        WaypointNavStatus.functions.variable_speed.function = true;
-        if (not static_cast<double>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
-                                                 ["properties"][i]["vel_trans"]) == 0)
+        WaypointNavStatus.functions.param_change.function = true;
+        if (not WaypointNavStatus.flags.param_change)
         {
-          dwa_local_planner::DWAPlannerConfig config;
-          dynamic_reconfigure_client.getCurrentConfiguration(config);
-          config.max_vel_trans = static_cast<double>(
-              waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["vel_trans"]);
-          config.max_vel_x = static_cast<double>(
-              waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["vel_trans"]);
-          dynamic_reconfigure_client.setConfiguration(config);
+          if (static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"]
+                                               [i]["param_name"]) != "")
+          {
+            WaypointNavStatus.functions.param_change.param_name.push_back(
+                static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
+                                                 ["properties"][i]["param_name"]));
+            WaypointNavStatus.functions.param_change.param_value.push_back(
+                static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
+                                                 ["properties"][i]["param_value"]));
+
+            saveParam(pnh, WaypointNavStatus);
+          }
         }
       }
 

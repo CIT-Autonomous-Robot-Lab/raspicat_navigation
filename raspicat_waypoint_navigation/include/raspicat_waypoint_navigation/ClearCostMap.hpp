@@ -39,6 +39,7 @@ class ClearCostMap : public raspicat_navigation::WaypointNavHelperPlugin
     ROS_INFO("raspicat_navigation::ClearCostMap run");
     clearCostMap();
   }
+  void run(std::string param, std::string value) {}
 
   void initServiceServer();
 
