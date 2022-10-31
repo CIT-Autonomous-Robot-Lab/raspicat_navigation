@@ -49,7 +49,7 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
       waypoint_radius_(3.0),
       waypoint_nav_start_(false)
 {
-  ros::AsyncSpinner spinner(4);
+  ros::AsyncSpinner spinner(pnh_.param("num_callback_threads", 4));
   spinner.start();
 
   readParam();
