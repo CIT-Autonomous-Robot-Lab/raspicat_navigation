@@ -8,36 +8,20 @@ namespace raspicat_navigation
 void ParamChange::run(std::string string, std::string value)
 {
   std::vector<std::string> split_slash_vec = splitSlash(string);
-  ROS_ERROR("d");
-
   std::string node = getNodeFromString(split_slash_vec);
-  ROS_ERROR("e");
-
   std::string param = getParamFromString(split_slash_vec);
-
-  ROS_ERROR("f");
 
   std::string param_change =
       "rosrun dynamic_reconfigure dynparam set " + node + " " + param + " " + value;
 
-  std::cout << param_change << "\n";
-  std::cout << param_change << "\n";
-  std::cout << param_change << "\n";
-  std::cout << param_change << "\n";
-
-  ROS_ERROR("g");
-
   system(param_change.c_str());
-  ROS_ERROR("h");
 }
 
 std::vector<std::string> ParamChange::splitSlash(const std::string str)
 {
-  ROS_ERROR("a");
   std::stringstream ss{str};
   std::string buf;
   std::vector<std::string> split_splash;
-  ROS_ERROR("b");
 
   while (std::getline(ss, buf, '/')) split_splash.push_back(buf);
 

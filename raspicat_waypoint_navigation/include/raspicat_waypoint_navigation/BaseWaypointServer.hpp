@@ -72,7 +72,7 @@ class BaseWaypointServer
       raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
 
   virtual void setWaypointFunction(
-      ros::NodeHandle &pnh, XmlRpc::XmlRpcValue &waypoint_yaml,
+      XmlRpc::XmlRpcValue &waypoint_yaml,
       raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
 
   virtual void debug(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;

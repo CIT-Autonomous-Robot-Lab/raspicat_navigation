@@ -270,17 +270,11 @@ std::string WaypointServer::getParam(raspicat_navigation_msgs::WaypointNavStatus
   }
 }
 
-void WaypointServer::saveParam(ros::NodeHandle &pnh,
-                               raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
+void WaypointServer::saveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
 {
   WaypointNavStatus.servers.param_change.param_name_save.push_back(
       WaypointNavStatus.functions.param_change.param_name.back());
   WaypointNavStatus.servers.param_change.param_value_save.push_back(getParam(WaypointNavStatus));
-
-  ROS_ERROR("get_param");
-  std::cout << WaypointNavStatus.functions.param_change.param_name.back() << "\n";
-  std::cout << getParam(WaypointNavStatus) << "\n";
-  ROS_ERROR("get_param");
 }
 
 void WaypointServer::clearSaveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
@@ -304,7 +298,7 @@ void WaypointServer::setFalseWaypointFlag(
 }
 
 void WaypointServer::setWaypointFunction(
-    ros::NodeHandle &pnh, XmlRpc::XmlRpcValue &waypoint_yaml,
+    XmlRpc::XmlRpcValue &waypoint_yaml,
     raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
 {
   if (waypoint_yaml[WaypointNavStatus.waypoint_current_id].hasMember("properties"))
@@ -375,7 +369,7 @@ void WaypointServer::setWaypointFunction(
                 static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
                                                  ["properties"][i]["param_value"]));
 
-            saveParam(pnh, WaypointNavStatus);
+            saveParam(WaypointNavStatus);
           }
         }
       }

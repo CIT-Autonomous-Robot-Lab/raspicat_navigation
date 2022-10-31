@@ -68,15 +68,14 @@ class WaypointServer : public raspicat_navigation::BaseWaypointServer
   void eraseTimer(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus,
                   std::map<std::string, ros::Timer> &timer_for_function);
 
-  void saveParam(ros::NodeHandle &pnh,
-                 raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
+  void saveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
   std::string getParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
   void clearSaveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
 
   void setFalseWaypointFunction(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
   void setFalseWaypointFlag(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
 
-  void setWaypointFunction(ros::NodeHandle &pnh, XmlRpc::XmlRpcValue &waypoint_yaml,
+  void setWaypointFunction(XmlRpc::XmlRpcValue &waypoint_yaml,
                            raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
 
   void debug(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);

@@ -308,7 +308,7 @@ void WaypointNav::Run()
     way_srv_->checkWaypointDistance(waypoint_yaml_, WaypointNavStatus_);
 
     // set function
-    way_srv_->setWaypointFunction(pnh_, waypoint_yaml_, WaypointNavStatus_);
+    way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
 
     // next_waypoint function
     if (WaypointNavStatus_.functions.next_waypoint.function)
