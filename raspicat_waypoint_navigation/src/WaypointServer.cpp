@@ -252,15 +252,22 @@ void WaypointServer::eraseTimer(raspicat_navigation_msgs::WaypointNavStatus &Way
 
 std::string WaypointServer::getParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus)
 {
+  bool get_param_bool;
   double get_param_double;
   std::string get_param_string;
 
   if (pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
-                          get_param_double))
+                          get_param_bool))
+    return std::to_string(get_param_bool);
+  else if (pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
+                               get_param_double))
     return std::to_string(get_param_double);
-  if (pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
-                          get_param_string))
+  else
+  {
+    pnh_.getParamCached(WaypointNavStatus.functions.param_change.param_name.back(),
+                        get_param_string);
     return get_param_string;
+  }
 }
 
 void WaypointServer::saveParam(ros::NodeHandle &pnh,
