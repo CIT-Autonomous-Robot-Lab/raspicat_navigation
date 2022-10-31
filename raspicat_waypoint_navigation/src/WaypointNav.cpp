@@ -40,7 +40,6 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
       pnh_(private_nodeHandle),
       tf_(tf),
       ac_move_base_("move_base", true),
-      dynamic_reconfigure_client_("/move_base/DWAPlannerROS"),
       waypoint_server_loader_("raspicat_waypoint_navigation",
                               "raspicat_navigation::BaseWaypointServer"),
       waypoint_rviz_loader_("raspicat_waypoint_navigation",
@@ -48,7 +47,7 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
       waypoint_nav_helper_loader_("raspicat_waypoint_navigation",
                                   "raspicat_navigation::WaypointNavHelperPlugin"),
       waypoint_radius_(3.0),
-      waypoint_nav_start_(true)
+      waypoint_nav_start_(false)
 {
   readParam();
   initPub();
@@ -61,10 +60,7 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
 
 WaypointNav::~WaypointNav() {}
 
-void WaypointNav::readParam()
-{
-  pnh_.getParam("/move_base/DWAPlannerROS/max_vel_trans", vel_trans_);
-}
+void WaypointNav::readParam() {}
 
 void WaypointNav::getRobotPoseTimer()
 {
@@ -169,11 +165,11 @@ void WaypointNav::initServiceClient()
   srv_way_nav_start_ = nh_.advertiseService<std_srvs::TriggerRequest, std_srvs::TriggerResponse>(
       "way_nav_start", [&](auto &req, auto &res) {
         ROS_INFO("Called service way_nav_start.");
-        static bool call_once = true;
-        if (call_once)
+        static bool call_once = false;
+        if (not call_once)
         {
-          call_once = false;
-          waypoint_nav_start_ = false;
+          call_once = true;
+          waypoint_nav_start_ = true;
           Run();
         }
         res.message = "Waypoint Navigation Start";
@@ -195,22 +191,24 @@ void WaypointNav::initServiceClient()
   srv_way_nav_restart_ = nh_.advertiseService<std_srvs::TriggerRequest, std_srvs::TriggerResponse>(
       "way_nav_restart", [&](auto &req, auto &res) {
         ROS_INFO("Called service way_nav_restart.");
-        if (not waypoint_nav_start_)
+        if (waypoint_nav_start_)
         {
           timer_for_function_.erase("speak_stop");
-          way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_, WaypointNavStatus_);
-          way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
+          WaypointNavStatus_.flags.restart = true;
+          // way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_,
+          // WaypointNavStatus_);
+          // way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
           res.message = "Waypoint Navigation Restart";
           res.success = true;
           return true;
         }
         else
         {
-          static bool call_once = true;
-          if (call_once)
+          static bool call_once = false;
+          if (not call_once)
           {
-            call_once = false;
-            waypoint_nav_start_ = false;
+            call_once = true;
+            waypoint_nav_start_ = true;
             Run();
           }
           res.message = "Waypoint Navigation Start";
@@ -284,6 +282,17 @@ void WaypointNav::initClassLoader()
   {
     ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
   }
+
+  try
+  {
+    way_helper_["ParamChange"] =
+        waypoint_nav_helper_loader_.createInstance("raspicat_waypoint_navigation/ParamChange");
+    way_helper_["ParamChange"]->initialize(waypoint_nav_helper_);
+  }
+  catch (pluginlib::PluginlibException &ex)
+  {
+    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
+  }
 }
 
 void WaypointNav::Run()
@@ -301,7 +310,7 @@ void WaypointNav::Run()
     way_srv_->checkWaypointDistance(waypoint_yaml_, WaypointNavStatus_);
 
     // set function
-    way_srv_->setWaypointFunction(dynamic_reconfigure_client_, waypoint_yaml_, WaypointNavStatus_);
+    way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
 
     // next_waypoint function
     if (WaypointNavStatus_.functions.next_waypoint.function)
@@ -316,7 +325,7 @@ void WaypointNav::Run()
         {
           timer_for_function_.erase("speak_stop");
           way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_, WaypointNavStatus_);
-          way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
+          // way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
         }
         else
         {
@@ -376,14 +385,17 @@ void WaypointNav::Run()
         timer_for_function_["speak_attention"] = speak_attention;
       }
 
-    // variable speed function
-    if (not WaypointNavStatus_.functions.variable_speed.function)
+    // param change function
+    if (WaypointNavStatus_.functions.param_change.function)
     {
-      dwa_local_planner::DWAPlannerConfig config;
-      dynamic_reconfigure_client_.getCurrentConfiguration(config);
-      config.max_vel_trans = vel_trans_;
-      config.max_vel_x = vel_trans_;
-      dynamic_reconfigure_client_.setConfiguration(config);
+      if (not WaypointNavStatus_.flags.param_change)
+      {
+        for (auto i = 0; i < WaypointNavStatus_.functions.param_change.param_name.size(); i++)
+          way_helper_["ParamChange"]->run(WaypointNavStatus_.functions.param_change.param_name[i],
+                                          WaypointNavStatus_.functions.param_change.param_value[i]);
+
+        WaypointNavStatus_.flags.param_change = true;
+      }
     }
 
     // variable waypoint radius function
@@ -445,8 +457,22 @@ void WaypointNav::Run()
     way_srv_->debug(WaypointNavStatus_);
     way_srv_->eraseTimer(WaypointNavStatus_, timer_for_function_);
     way_srv_->setFalseWaypointFunction(WaypointNavStatus_);
+
+    // When change waypoint
     if (WaypointNavStatus_.waypoint_previous_id != WaypointNavStatus_.waypoint_current_id)
+    {
+      if (WaypointNavStatus_.flags.param_change)
+      {
+        for (auto i = 0; i < WaypointNavStatus_.servers.param_change.param_name_save.size(); i++)
+          way_helper_["ParamChange"]->run(
+              WaypointNavStatus_.servers.param_change.param_name_save[i],
+              WaypointNavStatus_.servers.param_change.param_value_save[i]);
+
+        way_srv_->clearSaveParam(WaypointNavStatus_);
+      }
+
       way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
+    }
     ros::spinOnce();
     loop_rate.sleep();
   }
@@ -454,11 +480,11 @@ void WaypointNav::Run()
 
 void WaypointNav::WaypointNavStartCb(const std_msgs::EmptyConstPtr &msg)
 {
-  static bool once_flag = true;
-  if (once_flag)
+  static bool once_flag = false;
+  if (not once_flag)
   {
-    once_flag = false;
-    waypoint_nav_start_ = false;
+    once_flag = true;
+    waypoint_nav_start_ = true;
     Run();
   }
 }

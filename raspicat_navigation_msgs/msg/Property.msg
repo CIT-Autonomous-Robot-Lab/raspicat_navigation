@@ -6,6 +6,6 @@ next_waypoint next_waypoint
 slope slope
 step step
 stop stop
-variable_speed variable_speed
+param_change param_change
 variable_waypoint_radius variable_waypoint_radius
 waiting_line waiting_line

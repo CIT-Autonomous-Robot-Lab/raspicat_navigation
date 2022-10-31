@@ -18,9 +18,9 @@
   </class>
 
   <class
-    name="raspicat_waypoint_navigation/WaypointParamChange"
-    type="raspicat_navigation::WaypointParamChange"
-    base_class_type="raspicat_navigation::BaseWaypointParamChange">
+    name="raspicat_waypoint_navigation/ParamChange"
+    type="raspicat_navigation::ParamChange"
+    base_class_type="raspicat_navigation::WaypointNavHelperPlugin">
     <description>
       Plugin to change dynamic parameters related to waypoint.
     </description>

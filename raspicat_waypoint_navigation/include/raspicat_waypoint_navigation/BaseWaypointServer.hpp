@@ -17,6 +17,8 @@
 #ifndef BASE_WAYPOINT_HELPER_PLUGIN_HPP_
 #define BASE_WAYPOINT_HELPER_PLUGIN_HPP_
 
+#include <ros/ros.h>
+
 using namespace ::std;
 
 #include "raspicat_navigation_msgs/WaypointNavStatus.h"
@@ -62,6 +64,7 @@ class BaseWaypointServer
 
   virtual void eraseTimer(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus,
                           std::map<std::string, ros::Timer> &timer_for_function) = 0;
+  virtual void clearSaveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
 
   virtual void setFalseWaypointFunction(
       raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
@@ -69,7 +72,6 @@ class BaseWaypointServer
       raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
 
   virtual void setWaypointFunction(
-      dynamic_reconfigure::Client<dwa_local_planner::DWAPlannerConfig> &dynamic_reconfigure_client,
       XmlRpc::XmlRpcValue &waypoint_yaml,
       raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus) = 0;
 

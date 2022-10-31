@@ -3,6 +3,7 @@ uint16 waypoint_previous_id
 
 Property functions
 Flag flags
+Server servers
 
 float32 waypoint_current_distance
 geometry_msgs/Pose robot_pose

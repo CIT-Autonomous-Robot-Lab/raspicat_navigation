@@ -25,9 +25,6 @@
 #include <std_srvs/Empty.h>
 #include <visualization_msgs/MarkerArray.h>
 
-#include <dwa_local_planner/DWAPlannerConfig.h>
-#include <dynamic_reconfigure/client.h>
-
 #include <pluginlib/class_loader.hpp>
 #include "raspicat_waypoint_navigation/BaseWaypointRviz.hpp"
 #include "raspicat_waypoint_navigation/BaseWaypointServer.hpp"
@@ -100,8 +97,6 @@ class WaypointNav
   raspicat_navigation_msgs::WaypointNavStatus WaypointNavStatus_;
 
   double waypoint_radius_;
-  double vel_trans_;
-  dynamic_reconfigure::Client<dwa_local_planner::DWAPlannerConfig> dynamic_reconfigure_client_;
   bool waypoint_nav_start_;
 };
 
