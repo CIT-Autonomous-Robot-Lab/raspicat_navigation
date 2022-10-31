@@ -29,12 +29,7 @@ int main(int argc, char** argv)
   tf2_ros::TransformListener tf(buffer);
 
   waypoint_nav::WaypointNav wv(nh, pnh, buffer);
-  ROS_INFO("%s: Please ' rostopic pub -1 /way_nav_start std_msgs/Empty ' ",
-           ros::this_node::getName().c_str());
 
-  // If there is only one thread, the timer callback may not work well.
-  ros::AsyncSpinner spinner(pnh.param("num_callback_threads", 4));
-  spinner.start();
   ros::waitForShutdown();
   return 0;
 }
