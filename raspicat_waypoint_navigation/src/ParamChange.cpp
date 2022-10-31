@@ -12,7 +12,7 @@ void ParamChange::run(std::string string, std::string value)
   std::string param = getParamFromString(split_slash_vec);
 
   std::string param_change =
-      "rosrun dynamic_reconfigure dynparam set " + node + " " + param + " " + value;
+      "rosrun dynamic_reconfigure dynparam set " + node + " " + param + " " + value + " &";
 
   system(param_change.c_str());
 }
