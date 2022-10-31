@@ -8,8 +8,15 @@ waypoints:
     properties:
       - function: slope
         slope_circle_area: 3.0
-      - function: variable_speed
-        vel_trans: 0.8
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_x
+        param_value: "0.8"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_trans
+        param_value: "0.8"
+      - function: param_change
+        param_name: /move_base/local_costmap/obstacles_layer/enabled
+        param_value: "false"
   - id: 2
     position:
       x: 19.975597
@@ -42,8 +49,15 @@ waypoints:
       - function: slope
         slope_circle_area: 10.0
       - function: stop
-      - function: variable_speed
-        vel_trans: 1.3
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_x
+        param_value: "0.8"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_trans
+        param_value: "0.8"
+      - function: param_change
+        param_name: /move_base/local_costmap/obstacles_layer/enabled
+        param_value: "false"
   - id: 5
     position:
       x: -14.292275
