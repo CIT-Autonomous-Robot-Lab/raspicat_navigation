@@ -99,14 +99,6 @@ waypoints:
       y: 2.189323
     euler_angle:
       z: 1.582036549224253
-  - id: 17
-    position:
-      x: -235.264191
-      y: 41.776272
-    euler_angle:
-      z: 1.595640445749372
-    properties:
-      - function: stop
   - id: 18
     position:
       x: -234.878
