@@ -38,13 +38,19 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+# WaypointView
+add_executable(WaypointView_node
+  src/tools/waypoint_view.cpp
+)
+target_link_libraries(
+  WaypointView_node
+  WaypointNav
+  ${catkin_LIBRARIES}
+)
+
 # waypoint_rviz_set
 add_executable(waypoint_rviz_set src/tools/waypoint_set.cpp)
 target_link_libraries(waypoint_rviz_set ${catkin_LIBRARIES})
-
-# waypoint_rviz_view
-add_executable(waypoint_rviz_view src/tools/waypoint_view.cpp)
-target_link_libraries(waypoint_rviz_view ${catkin_LIBRARIES})
 
 add_library(${PROJECT_NAME}
   src/WaypointServer.cpp

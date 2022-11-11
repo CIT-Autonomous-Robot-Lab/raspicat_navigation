@@ -2,14 +2,24 @@
 <launch>
   <!-- Arguments -->
   <arg name="open_rviz" default="true"/>
-  <arg name="map_file" default="$(find raspicat_waypoint_navigation)/config/maps/for_move_base/map_tsudanuma.yaml"/>
-  <arg name="csv_file" default="$(find raspicat_waypoint_navigation)/config/csv/"/>
+  <arg name="waypoint_navigation"   default="true"/>
+  <arg name="world_name"          default="tsudanuma_2_19" doc="world_name type [tsudanuma_2_19, tsudanuma, tsukuba]"/>
+  <arg name="mcl_map_file"        default="$(find raspicat_waypoint_navigation)/config/maps/$(arg world_name)/map_$(arg world_name).yaml"/>
+  <arg name="move_base_map_file"  default="$(find raspicat_waypoint_navigation)/config/maps/for_move_base/map_$(arg world_name).yaml"/>
+  <arg name="waypoint_yaml_file"  default="$(find raspicat_waypoint_navigation)/config/waypoint/waypoint_$(arg world_name).yaml"/>
 
   <!-- Map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+  <node pkg="map_server" name="mcl_map_server" type="map_server" args="$(arg mcl_map_file)"/>
 
-  <!-- Waypoint_view node -->
-  <node pkg="raspicat_waypoint_navigation" name="waypoint_rviz_view" type="waypoint_rviz_view" args="$(arg csv_file)" required="true" output="screen"/>
+  <node pkg="map_server" name="move_base_map_server" type="map_server" args="$(arg move_base_map_file)">
+    <remap from="map"        to="/move_base_map"/>
+    <remap from="static_map" to="/move_base_static_map"/>
+  </node>
+
+  <!-- WaypointView node -->
+  <node pkg="raspicat_waypoint_navigation" name="WaypointView_node" type="WaypointView_node">
+    <rosparam command="load" file="$(arg waypoint_yaml_file)"/>
+  </node>
 
    <!-- Rviz -->
   <group if="$(arg open_rviz)"> 

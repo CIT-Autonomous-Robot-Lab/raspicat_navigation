@@ -39,8 +39,8 @@ namespace waypoint_nav
 class WaypointNav
 {
  public:
-  WaypointNav(ros::NodeHandle& nodeHandle, ros::NodeHandle& private_nodeHandle,
-              tf2_ros::Buffer& tf);
+  WaypointNav(ros::NodeHandle& nodeHandle, ros::NodeHandle& private_nodeHandle, tf2_ros::Buffer& tf,
+              bool waypoint_view_only = false);
   virtual ~WaypointNav();
 
   void readParam();
