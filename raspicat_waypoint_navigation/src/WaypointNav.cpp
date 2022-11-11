@@ -339,6 +339,21 @@ void WaypointNav::Run()
           }
           else
           {
+            // stop after param change function
+            if (WaypointNavStatus_.flags.stop_after_and_keep)
+            {
+              if (not WaypointNavStatus_.flags.param_change)
+              {
+                for (auto i = 0; i < WaypointNavStatus_.functions.param_change.param_name.size();
+                     i++)
+                  way_helper_["ParamChange"]->run(
+                      WaypointNavStatus_.functions.param_change.param_name[i],
+                      WaypointNavStatus_.functions.param_change.param_value[i]);
+
+                WaypointNavStatus_.flags.param_change = true;
+              }
+            }
+
             if (timer_for_function_.find("speak_stop") == timer_for_function_.end())
             {
               ros::Timer speak_stop;
@@ -396,7 +411,8 @@ void WaypointNav::Run()
         }
 
       // param change function
-      if (WaypointNavStatus_.functions.param_change.function)
+      if (WaypointNavStatus_.functions.param_change.function &&
+          not WaypointNavStatus_.flags.stop_after_and_keep)
       {
         if (not WaypointNavStatus_.flags.param_change)
         {
@@ -472,16 +488,21 @@ void WaypointNav::Run()
       // When change waypoint
       if (WaypointNavStatus_.waypoint_previous_id != WaypointNavStatus_.waypoint_current_id)
       {
-        if (WaypointNavStatus_.flags.param_change)
+        if (not WaypointNavStatus_.servers.param_change.param_name_save.empty())
         {
-          for (auto i = 0; i < WaypointNavStatus_.servers.param_change.param_name_save.size(); i++)
-            way_helper_["ParamChange"]->run(
-                WaypointNavStatus_.servers.param_change.param_name_save[i],
-                WaypointNavStatus_.servers.param_change.param_value_save[i]);
+          if (not WaypointNavStatus_.flags.stop_after_and_keep)
+          {
+            for (auto i = 0; i < WaypointNavStatus_.servers.param_change.param_name_save.size();
+                 i++)
+              way_helper_["ParamChange"]->run(
+                  WaypointNavStatus_.servers.param_change.param_name_save[i],
+                  WaypointNavStatus_.servers.param_change.param_value_save[i]);
 
-          way_srv_->clearSaveParam(WaypointNavStatus_);
+            way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
+            if (not WaypointNavStatus_.functions.param_change.function)
+              way_srv_->clearSaveParam(WaypointNavStatus_);
+          }
         }
-
         way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
       }
     }
