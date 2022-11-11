@@ -26,7 +26,7 @@ void SlopeObstacleAvoidance::readParameters()
   float obstacle_range;
   while (!pnh_.getParam("/move_base/local_costmap/obstacles_layer/obstacle_range", obstacle_range))
   {
-    ROS_ERROR("Cannot read /move_base/local_costmap/obstacles_layer/obstacle_range parameters.");
+    ROS_WARN("Cannot read /move_base/local_costmap/obstacles_layer/obstacle_range parameters.");
     ros::Duration duration(0.1);
     duration.sleep();
   }

@@ -35,7 +35,7 @@ using namespace ::std;
 namespace waypoint_nav
 {
 WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_nodeHandle,
-                         tf2_ros::Buffer &tf)
+                         tf2_ros::Buffer &tf, bool waypoint_view_only)
     : nh_(nodeHandle),
       pnh_(private_nodeHandle),
       tf_(tf),
@@ -52,14 +52,22 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
   ros::AsyncSpinner spinner(pnh_.param("num_callback_threads", 4));
   spinner.start();
 
-  readParam();
-  initPub();
-  initActionClient();
-  initSub();
-  initClassLoader();
-  getRobotPoseTimer();
-  initServiceClient();
-  Run();
+  if (not waypoint_view_only)
+  {
+    readParam();
+    initPub();
+    initActionClient();
+    initSub();
+    initClassLoader();
+    getRobotPoseTimer();
+    initServiceClient();
+    Run();
+  }
+  else
+  {
+    initPub();
+    initClassLoader();
+  }
 }
 
 WaypointNav::~WaypointNav() {}
