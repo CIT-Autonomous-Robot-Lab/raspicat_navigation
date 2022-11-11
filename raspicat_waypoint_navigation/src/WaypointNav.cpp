@@ -60,7 +60,7 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
     initSub();
     initClassLoader();
     getRobotPoseTimer();
-    initServiceClient();
+    registerDynamicParam();
     Run();
   }
   else
@@ -300,6 +300,13 @@ void WaypointNav::initClassLoader()
   {
     ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
   }
+}
+
+void WaypointNav::registerDynamicParam()
+{
+  ddr_ = std::make_shared<ddynamic_reconfigure::DDynamicReconfigure>(pnh_);
+  ddr_->RegisterVariable((int *)&WaypointNavStatus_.waypoint_current_id, "waypoint_id");
+  ddr_->PublishServicesTopics();
 }
 
 void WaypointNav::Run()
