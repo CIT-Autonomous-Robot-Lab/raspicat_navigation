@@ -68,6 +68,7 @@ class WaypointServer : public raspicat_navigation::BaseWaypointServer
   void eraseTimer(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus,
                   std::map<std::string, ros::Timer> &timer_for_function);
 
+  bool checkElementDuplication(const std::string str, const std::vector<std::string> vec);
   void saveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
   std::string getParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);
   void clearSaveParam(raspicat_navigation_msgs::WaypointNavStatus &WaypointNavStatus);

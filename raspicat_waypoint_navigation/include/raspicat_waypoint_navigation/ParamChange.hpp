@@ -36,6 +36,7 @@ class ParamChange : public raspicat_navigation::WaypointNavHelperPlugin
   std::vector<std::string> splitSlash(const std::string str);
   std::string getNodeFromString(const std::vector<std::string> vec);
   std::string getParamFromString(const std::vector<std::string> vec);
+  bool checkElementDuplication(const std::string str, const std::vector<std::string> vec);
 };
 
 }  // namespace raspicat_navigation
