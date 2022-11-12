@@ -59,6 +59,16 @@ class WaypointNav
   void WaypointNavStartCb(const std_msgs::EmptyConstPtr& msg);
   void WaypointNavRestartCb(const std_msgs::EmptyConstPtr& msg);
 
+  void next_waypoint_function();
+  void stop_function();
+  void goal_function();
+  void loop_function();
+  void attention_speak_function_function();
+  void param_change_function_function();
+  void variable_waypoint_radius_function();
+  void slope_function();
+  void clear_costmap_function();
+
   void sleep(ros::Duration duration);
   void sleep(double rate);
   void sleep(double& rate);
