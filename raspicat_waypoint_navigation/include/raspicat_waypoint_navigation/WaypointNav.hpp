@@ -20,6 +20,7 @@
 #include <ros/ros.h>
 
 #include <actionlib/client/simple_action_client.h>
+#include <ddynamic_reconfigure/ddynamic_reconfigure.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <std_srvs/Empty.h>
@@ -97,6 +98,8 @@ class WaypointNav
   boost::shared_ptr<raspicat_navigation::BaseWaypointRviz> way_rviz_;
   std::map<std::string, boost::shared_ptr<raspicat_navigation::WaypointNavHelperPlugin>>
       way_helper_;
+
+  std::shared_ptr<ddynamic_reconfigure::DDynamicReconfigure> ddr_;
 
   string waypoint_server_, waypoint_rviz_, waypoint_nav_helper_;
 
