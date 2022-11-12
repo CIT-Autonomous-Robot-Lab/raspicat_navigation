@@ -22,10 +22,10 @@
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>raspicat_gazebo</exec_depend>
   <exec_depend>raspicat_description</exec_depend>
-  <exec_depend>ddynamic_reconfigure</exec_depend>
 
   <depend>std_msgs</depend>
   <depend>raspicat_navigation_msgs</depend>
+  <depend>ddynamic_reconfigure</depend>
 
   <build_export_depend>pluginlib</build_export_depend>
   <export>
