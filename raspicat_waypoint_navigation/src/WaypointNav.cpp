@@ -60,7 +60,7 @@ WaypointNav::WaypointNav(ros::NodeHandle &nodeHandle, ros::NodeHandle &private_n
     initSub();
     initClassLoader();
     getRobotPoseTimer();
-    registerDynamicParam();
+    // registerDynamicParam();
     Run();
   }
   else
