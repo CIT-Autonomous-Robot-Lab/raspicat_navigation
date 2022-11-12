@@ -17,7 +17,7 @@ export DISPLAY=:44
 roslaunch raspicat_waypoint_navigation ci_test.launch \
   mcl:=amcl waypoint_yaml_file:=$(rospack find raspicat_waypoint_navigation)/test/waypoint.yaml \
   map_name:=tsudanuma_2_19 &
-sleep 50
+sleep 80
 
 # Record
 ffmpeg -nostdin -draw_mouse 0 -f x11grab -video_size 1300x1000 -i :44 -codec:v libx264 -r 1 /tmp/report/video.mp4 &
