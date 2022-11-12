@@ -12,12 +12,17 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   pluginlib
   roslib
+  ddynamic_reconfigure
 )
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS roscpp std_msgs raspicat_navigation_msgs
+  CATKIN_DEPENDS 
+    roscpp 
+    std_msgs
+    raspicat_navigation_msgs
+    ddynamic_reconfigure
 )
 
 include_directories(
