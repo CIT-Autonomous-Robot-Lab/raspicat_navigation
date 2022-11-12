@@ -51,6 +51,7 @@ class WaypointNav
   void initActionClient();
   void initServiceClient();
   void initClassLoader();
+  void registerDynamicParam();
 
   void resolve_tf_between_map_and_robot_link();
 
