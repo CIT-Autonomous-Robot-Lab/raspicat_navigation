@@ -13,6 +13,9 @@
   <arg name="waypoint_yaml_file"  default="$(find raspicat_waypoint_navigation)/config/waypoint/waypoint_$(arg world_name).yaml"/>
   <arg name="mcl"                 default="amcl" doc="model type [amcl, emcl2, mcl_ros]"/>
 
+  <arg name="cmd_vel_out" default="/cmd_vel"/>
+  <arg name="config_topics" default="$(find raspicat_waypoint_navigation)/config/param/twist_mux_topics.yaml"/>
+
   <!-- Tsudanuma 2 19 -->
   <group if="$(eval world_name=='tsudanuma_2_19')">
     <arg name="x_gazebo"    default="0.155971128532"/>
@@ -169,10 +172,15 @@
     <rosparam command="load" file="$(find raspicat_waypoint_navigation)/config/raspicat_speak/voice_config.yaml"/>
   </node>
 
-	<!-- Obstacle detector -->
-	<rosparam command="load" file="$(find raspicat_waypoint_navigation)/config/param/obstacle_detector.yaml"/>
+  <!-- Obstacle detector -->
+  <rosparam command="load" file="$(find raspicat_waypoint_navigation)/config/param/obstacle_detector.yaml"/>
   <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node" clear_params="true" output="screen"/>
   
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux" output="screen">
+    <remap from="cmd_vel_out" to="$(arg cmd_vel_out)"/>
+    <rosparam file="$(arg config_topics)" command="load"/>
+  </node>
+
   <!-- RViz -->
   <node if="$(arg open_rviz)" pkg="rviz" type="rviz" name="rviz" required="true"
     args="-d $(find raspicat_waypoint_navigation)/config/rviz/raspicat_waypoint_navigation.rviz">

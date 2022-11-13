@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Arguments -->
-  <arg name="cmd_vel_topic"     default="/cmd_vel"/>
+  <arg name="cmd_vel_topic"     default="/nav_vel"/>
   <arg name="odom_topic"        default="/odom"/>
 
   <arg name="waypoint_nav"      default="false"/>
