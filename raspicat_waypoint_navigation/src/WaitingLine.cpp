@@ -38,18 +38,18 @@ void WaitingLine::waitingLine()
 {
   waiting_line_timer_ = nh_.createTimer(ros::Duration(0.1), [&](auto &) {
     if (get_scan_)
-      if (checkObstacle()) stopVelPublish();
+      if (checkObstacle(scan_)) stopVelPublish();
   });
 }
 
-bool WaitingLine::checkObstacle()
+bool WaitingLine::checkObstacle(sensor_msgs::LaserScan scan)
 {
   double extra_angle = calcExtraAngle();
   uint16_t cnt_obstacle = 0;
   double angle = 0;
-  for (auto &scan_data : scan_.ranges)
+  for (auto &scan_data : scan.ranges)
   {
-    if (extra_angle < angle && angle < scan_.angle_max * 2 - extra_angle)
+    if (extra_angle < angle && angle < scan.angle_max * 2 - extra_angle)
     {
       double x = fabs(scan_data * cos(fabs(angle - extra_angle)));
       double y = fabs(scan_data * sin(fabs(angle - extra_angle)));
@@ -59,7 +59,7 @@ bool WaitingLine::checkObstacle()
 
     if (cnt_obstacle > 10) return true;
 
-    angle += scan_.angle_increment;
+    angle += scan.angle_increment;
   }
 
   return false;

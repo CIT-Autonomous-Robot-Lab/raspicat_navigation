@@ -50,7 +50,7 @@ class WaitingLine : public raspicat_navigation::WaypointNavHelperPlugin
   void initPubSub();
 
   void waitingLine();
-  bool checkObstacle();
+  bool checkObstacle(sensor_msgs::LaserScan scan);
   void stopVelPublish();
 
   double calcExtraAngle();
