@@ -43,4 +43,13 @@
       Plugin to run clear cost map for each waypoint.
     </description>
   </class>
+
+  <class
+    name="raspicat_waypoint_navigation/WaitingLine"
+    type="raspicat_navigation::WaitingLine"
+    base_class_type="raspicat_navigation::WaypointNavHelperPlugin">
+    <description>
+      Plugin to waiting line.
+    </description>
+  </class>
 </library>
