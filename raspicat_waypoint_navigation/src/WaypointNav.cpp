@@ -500,8 +500,8 @@ void WaypointNav::waiting_line_function()
       way_helper_["WaitingLine"]->run();
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
-      // way_helper_["ParamChange"]->run("", "");
-      // way_helper_["ParamChange"]->run("", "");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.3");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
 
       WaypointNavStatus_.flags.waiting_line = true;
       WaypointNavStatus_.flags.high_priority_proc = true;
@@ -509,11 +509,16 @@ void WaypointNav::waiting_line_function()
 
     if (WaypointNavStatus_.flags.waiting_line && way_srv_->checkGoalReach(WaypointNavStatus_))
     {
-      way_srv_->clearSaveParam(WaypointNavStatus_);
+      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "true");
+      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "true");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.6");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.6");
       sleep(5);
       WaypointNavStatus_.flags.high_priority_proc = false;
     }
   }
+  else
+    way_helper_["WaitingLine"]->finish();
 }
 
 void WaypointNav::Run()
@@ -546,6 +551,7 @@ void WaypointNav::Run()
 
       // function
       next_waypoint_function();
+      waiting_line_function();
       stop_function();
       goal_function();
       loop_function();
@@ -554,7 +560,6 @@ void WaypointNav::Run()
       variable_waypoint_radius_function();
       slope_function();
       clear_costmap_function();
-      waiting_line_function();
 
       // way_srv_->debug(WaypointNavStatus_);
       way_srv_->eraseTimer(WaypointNavStatus_, timer_for_function_);
