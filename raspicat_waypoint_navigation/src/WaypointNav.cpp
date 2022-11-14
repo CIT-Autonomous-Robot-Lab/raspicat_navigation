@@ -561,7 +561,7 @@ void WaypointNav::Run()
       slope_function();
       clear_costmap_function();
 
-      // way_srv_->debug(WaypointNavStatus_);
+      way_srv_->debug(WaypointNavStatus_);
       way_srv_->eraseTimer(WaypointNavStatus_, timer_for_function_);
       way_srv_->setFalseWaypointFunction(WaypointNavStatus_);
 
