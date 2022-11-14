@@ -301,6 +301,17 @@ void WaypointNav::initClassLoader()
   {
     ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
   }
+
+  try
+  {
+    way_helper_["WaitingLine"] =
+        waypoint_nav_helper_loader_.createInstance("raspicat_waypoint_navigation/WaitingLine");
+    way_helper_["WaitingLine"]->initialize(waypoint_nav_helper_);
+  }
+  catch (pluginlib::PluginlibException &ex)
+  {
+    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
+  }
 }
 
 void WaypointNav::registerDynamicParam()
@@ -330,8 +341,20 @@ void WaypointNav::stop_function()
       }
       else
       {
+        if (timer_for_function_.find("speak_stop") == timer_for_function_.end())
+        {
+          ros::Timer speak_stop;
+          speak_stop = nh_.createTimer(ros::Duration(0.1), [&](auto &) {
+            std_msgs::Empty msg;
+            way_stop_.publish(msg);
+            sleep(6.0);
+          });
+          timer_for_function_["speak_stop"] = speak_stop;
+        }
+
         // stop after param change function
-        if (WaypointNavStatus_.flags.stop_after_and_keep)
+        if (WaypointNavStatus_.flags.stop_after_and_keep &&
+            not WaypointNavStatus_.flags.high_priority_proc)
         {
           if (not WaypointNavStatus_.flags.param_change)
           {
@@ -342,17 +365,6 @@ void WaypointNav::stop_function()
 
             WaypointNavStatus_.flags.param_change = true;
           }
-        }
-
-        if (timer_for_function_.find("speak_stop") == timer_for_function_.end())
-        {
-          ros::Timer speak_stop;
-          speak_stop = nh_.createTimer(ros::Duration(0.1), [&](auto &) {
-            std_msgs::Empty msg;
-            way_stop_.publish(msg);
-            sleep(6.0);
-          });
-          timer_for_function_["speak_stop"] = speak_stop;
         }
       }
   }
@@ -462,6 +474,7 @@ void WaypointNav::slope_function()
     }
   }
 }
+
 void WaypointNav::clear_costmap_function()
 {
   if ((WaypointNavStatus_.waypoint_previous_id != WaypointNavStatus_.waypoint_current_id) &&
@@ -476,6 +489,36 @@ void WaypointNav::clear_costmap_function()
     sleep(5);
     way_srv_->sendWaypoint(ac_move_base_, goal_);
   }
+}
+
+void WaypointNav::waiting_line_function()
+{
+  if (WaypointNavStatus_.functions.waiting_line.function)
+  {
+    if (not WaypointNavStatus_.flags.waiting_line)
+    {
+      way_helper_["WaitingLine"]->run();
+      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
+      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.3");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
+
+      WaypointNavStatus_.flags.waiting_line = true;
+      WaypointNavStatus_.flags.high_priority_proc = true;
+    }
+
+    if (WaypointNavStatus_.flags.waiting_line && way_srv_->checkGoalReach(WaypointNavStatus_))
+    {
+      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "true");
+      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "true");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.6");
+      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.6");
+      sleep(5);
+      WaypointNavStatus_.flags.high_priority_proc = false;
+    }
+  }
+  else
+    way_helper_["WaitingLine"]->finish();
 }
 
 void WaypointNav::Run()
@@ -508,6 +551,7 @@ void WaypointNav::Run()
 
       // function
       next_waypoint_function();
+      waiting_line_function();
       stop_function();
       goal_function();
       loop_function();

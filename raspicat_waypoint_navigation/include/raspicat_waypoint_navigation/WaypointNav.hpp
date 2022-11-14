@@ -70,6 +70,7 @@ class WaypointNav
   void variable_waypoint_radius_function();
   void slope_function();
   void clear_costmap_function();
+  void waiting_line_function();
 
   void sleep(ros::Duration duration);
   void sleep(double rate);

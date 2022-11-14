@@ -32,6 +32,7 @@ class ParamChange : public raspicat_navigation::WaypointNavHelperPlugin
   void run() { ROS_INFO("raspicat_navigation::ParamChange run"); }
 
   void run(std::string param, std::string value);
+  void finish() {}
 
   std::vector<std::string> splitSlash(const std::string str);
   std::string getNodeFromString(const std::vector<std::string> vec);

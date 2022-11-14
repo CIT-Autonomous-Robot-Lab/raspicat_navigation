@@ -63,6 +63,7 @@ add_library(${PROJECT_NAME}
   src/ParamChange.cpp
   src/SlopeObstacleAvoidance.cpp
   src/ClearCostMap.cpp
+  src/WaitingLine.cpp
 )
 
 install(DIRECTORY launch src config scripts

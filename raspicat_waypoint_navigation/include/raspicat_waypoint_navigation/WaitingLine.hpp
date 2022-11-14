@@ -14,8 +14,8 @@
  *limitations under the License.
  */
 
-#ifndef CLEAR_COST_MAP_HPP_
-#define CLEAR_COST_MAP_HPP_
+#ifndef WAITING_LINE_HPP_
+#define WAITING_LINE_HPP_
 
 #include <ros/ros.h>
 
@@ -23,29 +23,42 @@
 
 namespace raspicat_navigation
 {
-class ClearCostMap : public raspicat_navigation::WaypointNavHelperPlugin
+class WaitingLine : public raspicat_navigation::WaypointNavHelperPlugin
 {
   ros::NodeHandle nh_, pnh_;
-  ros::ServiceClient clear_cost_map_client_;
+  ros::Publisher stop_vel_publisher;
+  ros::Subscriber scan_subscriber_;
+  ros::Timer waiting_line_timer_;
+
+  sensor_msgs::LaserScan scan_;
 
  public:
   void initialize(std::string name)
   {
-    ROS_INFO("raspicat_navigation::ClearCostMap initialize");
-    initServiceServer();
+    ROS_INFO("raspicat_navigation::WaitingLine initialize");
+    initPubSub();
   }
+
   void run()
   {
-    ROS_INFO("raspicat_navigation::ClearCostMap run");
-    clearCostMap();
+    ROS_INFO("raspicat_navigation::WaitingLine run");
+    waitingLine();
   }
   void run(std::string param, std::string value) {}
-  void finish() {}
+  void finish() { waiting_line_timer_.stop(); }
 
-  void initServiceServer();
+  void initPubSub();
 
-  void clearCostMap();
+  void waitingLine();
+  bool checkObstacle(sensor_msgs::LaserScan scan);
+  void stopVelPublish();
+
+  double calcExtraAngle();
+  bool checkBoxRangeSearch(double x, double y);
+
+  bool get_scan_;
 };
 
+constexpr double degree90_radian = 1.5708;
 }  // namespace raspicat_navigation
-#endif  // CLEAR_COST_MAP
+#endif  // WaitingLine
