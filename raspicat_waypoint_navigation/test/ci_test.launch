@@ -14,6 +14,9 @@
   <arg name="y_mcl"       default="0.112"/>
   <arg name="a_mcl"       default="-0.013"/>
 
+  <arg name="cmd_vel_out" default="/cmd_vel"/>
+  <arg name="config_topics" default="$(find raspicat_waypoint_navigation)/config/param/twist_mux_topics.yaml"/>
+
   <!-- Amcl -->
   <group if="$(eval mcl=='amcl')">
     <include file="$(find raspicat_waypoint_navigation)/launch/amcl.launch">
@@ -51,8 +54,14 @@
     <param name="initial_pose_y"  value="$(arg y_mcl)"/>
     <param name="initial_pose_a"  value="$(arg a_mcl)"/>
   </node>
-	
-	<!-- Obstacle detector -->
-	<rosparam command="load" file="$(find raspicat_waypoint_navigation)/config/param/obstacle_detector.yaml"/>
+  
+  <!-- Obstacle detector -->
+  <rosparam command="load" file="$(find raspicat_waypoint_navigation)/config/param/obstacle_detector.yaml"/>
   <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node" clear_params="true" output="screen"/>
+
+  <!-- Twist mux -->
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux" output="screen">
+    <remap from="cmd_vel_out" to="$(arg cmd_vel_out)"/>
+    <rosparam file="$(arg config_topics)" command="load"/>
+  </node>
 </launch>
