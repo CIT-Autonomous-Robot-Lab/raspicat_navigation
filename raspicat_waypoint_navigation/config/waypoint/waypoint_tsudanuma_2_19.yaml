@@ -45,6 +45,12 @@ waypoints:
       - function: attention_speak
       - function: variable_waypoint_radius
         waypoint_radius: 2.0
+      - function: param_change
+        param_name: /move_base/global_costmap/obstacles_layer/enabled
+        param_value: "true"
+      - function: param_change
+        param_name: /move_base/local_costmap/obstacles_layer/enabled
+        param_value: "true"
   - id: 4
     position:
       x: -13.854096

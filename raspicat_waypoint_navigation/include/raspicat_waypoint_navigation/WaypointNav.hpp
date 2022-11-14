@@ -44,6 +44,8 @@ class WaypointNav
               bool waypoint_view_only = false);
   virtual ~WaypointNav();
 
+  void loadHelperPlugin(std::string class_name, std::string plugin_name, bool run = false);
+
   void readParam();
   void getRobotPoseTimer();
   void initPub();
@@ -71,6 +73,8 @@ class WaypointNav
   void slope_function();
   void clear_costmap_function();
   void waiting_line_function();
+
+  void clearSaveParam();
 
   void sleep(ros::Duration duration);
   void sleep(double rate);

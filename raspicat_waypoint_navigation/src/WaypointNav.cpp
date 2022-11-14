@@ -268,45 +268,20 @@ void WaypointNav::initClassLoader()
     ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
   }
 
-  try
-  {
-    way_helper_["SlopeObstacleAvoidance"] = waypoint_nav_helper_loader_.createInstance(
-        "raspicat_waypoint_navigation/SlopeObstacleAvoidance");
-    way_helper_["SlopeObstacleAvoidance"]->initialize(waypoint_nav_helper_);
-    way_helper_["SlopeObstacleAvoidance"]->run();
-  }
-  catch (pluginlib::PluginlibException &ex)
-  {
-    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
-  }
+  loadHelperPlugin("SlopeObstacleAvoidance", "raspicat_waypoint_navigation/SlopeObstacleAvoidance",
+                   true);
+  loadHelperPlugin("ClearCostMap", "raspicat_waypoint_navigation/ClearCostMap");
+  loadHelperPlugin("ParamChange", "raspicat_waypoint_navigation/ParamChange");
+  loadHelperPlugin("WaitingLine", "raspicat_waypoint_navigation/WaitingLine");
+}
 
+void WaypointNav::loadHelperPlugin(std::string class_name, std::string plugin_name, bool run)
+{
   try
   {
-    way_helper_["ClearCostMap"] =
-        waypoint_nav_helper_loader_.createInstance("raspicat_waypoint_navigation/ClearCostMap");
-    way_helper_["ClearCostMap"]->initialize(waypoint_nav_helper_);
-  }
-  catch (pluginlib::PluginlibException &ex)
-  {
-    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
-  }
-
-  try
-  {
-    way_helper_["ParamChange"] =
-        waypoint_nav_helper_loader_.createInstance("raspicat_waypoint_navigation/ParamChange");
-    way_helper_["ParamChange"]->initialize(waypoint_nav_helper_);
-  }
-  catch (pluginlib::PluginlibException &ex)
-  {
-    ROS_ERROR("failed to load add plugin. Error: %s", ex.what());
-  }
-
-  try
-  {
-    way_helper_["WaitingLine"] =
-        waypoint_nav_helper_loader_.createInstance("raspicat_waypoint_navigation/WaitingLine");
-    way_helper_["WaitingLine"]->initialize(waypoint_nav_helper_);
+    way_helper_[class_name] = waypoint_nav_helper_loader_.createInstance(plugin_name);
+    way_helper_[class_name]->initialize(waypoint_nav_helper_);
+    if (run) way_helper_[class_name]->run();
   }
   catch (pluginlib::PluginlibException &ex)
   {
@@ -369,6 +344,7 @@ void WaypointNav::stop_function()
       }
   }
 }
+
 void WaypointNav::goal_function()
 {
   if (WaypointNavStatus_.functions.goal.function)
@@ -387,6 +363,7 @@ void WaypointNav::goal_function()
       }
     }
 }
+
 void WaypointNav::loop_function()
 {
   if (WaypointNavStatus_.functions.loop.function)
@@ -401,6 +378,7 @@ void WaypointNav::loop_function()
       timer_for_function_.erase(timer_for_function_.begin(), timer_for_function_.end());
     }
 }
+
 void WaypointNav::attention_speak_function_function()
 {
   if (WaypointNavStatus_.functions.attention_speak.function)
@@ -415,6 +393,7 @@ void WaypointNav::attention_speak_function_function()
       timer_for_function_["speak_attention"] = speak_attention;
     }
 }
+
 void WaypointNav::param_change_function_function()
 {
   if (WaypointNavStatus_.functions.param_change.function &&
@@ -430,11 +409,13 @@ void WaypointNav::param_change_function_function()
     }
   }
 }
+
 void WaypointNav::variable_waypoint_radius_function()
 {
   if (not WaypointNavStatus_.functions.variable_waypoint_radius.function)
     WaypointNavStatus_.waypoint_radius_threshold = waypoint_radius_;
 }
+
 void WaypointNav::slope_function()
 {
   if (WaypointNavStatus_.functions.slope.function)
@@ -504,21 +485,32 @@ void WaypointNav::waiting_line_function()
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
 
       WaypointNavStatus_.flags.waiting_line = true;
-      WaypointNavStatus_.flags.high_priority_proc = true;
+      // WaypointNavStatus_.flags.high_priority_proc = true;
     }
 
-    if (WaypointNavStatus_.flags.waiting_line && way_srv_->checkGoalReach(WaypointNavStatus_))
-    {
-      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "true");
-      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "true");
-      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.6");
-      way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.6");
-      sleep(5);
-      WaypointNavStatus_.flags.high_priority_proc = false;
-    }
+    // if (WaypointNavStatus_.flags.waiting_line && way_srv_->checkGoalReach(WaypointNavStatus_))
+    // WaypointNavStatus_.flags.high_priority_proc = false;
   }
   else
     way_helper_["WaitingLine"]->finish();
+}
+
+void WaypointNav::clearSaveParam()
+{
+  if (not WaypointNavStatus_.servers.param_change.param_name_save.empty())
+  {
+    if (not WaypointNavStatus_.flags.stop_after_and_keep)
+    {
+      for (auto i = 0; i < WaypointNavStatus_.servers.param_change.param_name_save.size(); i++)
+        way_helper_["ParamChange"]->run(
+            WaypointNavStatus_.servers.param_change.param_name_save[i],
+            WaypointNavStatus_.servers.param_change.param_value_save[i]);
+
+      way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
+      if (not WaypointNavStatus_.functions.param_change.function)
+        way_srv_->clearSaveParam(WaypointNavStatus_);
+    }
+  }
 }
 
 void WaypointNav::Run()
@@ -568,21 +560,7 @@ void WaypointNav::Run()
       // When change waypoint
       if (WaypointNavStatus_.waypoint_previous_id != WaypointNavStatus_.waypoint_current_id)
       {
-        if (not WaypointNavStatus_.servers.param_change.param_name_save.empty())
-        {
-          if (not WaypointNavStatus_.flags.stop_after_and_keep)
-          {
-            for (auto i = 0; i < WaypointNavStatus_.servers.param_change.param_name_save.size();
-                 i++)
-              way_helper_["ParamChange"]->run(
-                  WaypointNavStatus_.servers.param_change.param_name_save[i],
-                  WaypointNavStatus_.servers.param_change.param_value_save[i]);
-
-            way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
-            if (not WaypointNavStatus_.functions.param_change.function)
-              way_srv_->clearSaveParam(WaypointNavStatus_);
-          }
-        }
+        clearSaveParam();
         way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
       }
     }
