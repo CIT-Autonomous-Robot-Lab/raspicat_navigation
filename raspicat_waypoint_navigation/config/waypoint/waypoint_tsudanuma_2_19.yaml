@@ -10,6 +10,9 @@ waypoints:
         slope_circle_area: 3.0
       - function: stop
       - function: param_change
+        stop_after_and_keep: true
+      - function: waiting_line
+      - function: param_change
         param_name: /move_base/DWAPlannerROS/max_vel_x
         param_value: "0.3"
       - function: param_change
@@ -18,8 +21,6 @@ waypoints:
       - function: param_change
         param_name: /move_base/local_costmap/obstacles_layer/enabled
         param_value: "false"
-      - function: param_change
-        stop_after_and_keep: true
   - id: 2
     position:
       x: 19.975597
