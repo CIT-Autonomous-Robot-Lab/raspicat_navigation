@@ -404,7 +404,7 @@ void WaypointServer::setWaypointFunction(
         WaypointNavStatus.functions.waiting_line.function = true;
       }
       else if (waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["function"] ==
-               "obstacle_layer_controller")
+               "obstacle_layer_controlle")
       {
         WaypointNavStatus.functions.obstacle_layer_controlle.function = true;
 
