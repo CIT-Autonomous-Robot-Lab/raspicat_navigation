@@ -93,7 +93,8 @@ void WaypointRviz::WaypointMarkerArraySet(XmlRpc::XmlRpcValue& waypoint_yaml,
     for (auto i = 0; i < waypoint_yaml[waypoint_id]["properties"].size(); i++)
     {
       if (!(waypoint_yaml[waypoint_id]["properties"][i]["function"] == "goal") &&
-          !(waypoint_yaml[waypoint_id]["properties"][i]["function"] == "stop"))
+          !(waypoint_yaml[waypoint_id]["properties"][i]["function"] == "stop") &&
+          !(waypoint_yaml[waypoint_id]["properties"][i]["function"] == "stop_go"))
         waypoint_area.markers[waypoint_id].color.a = 0.1f;
       else
       {

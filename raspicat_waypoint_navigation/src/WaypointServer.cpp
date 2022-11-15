@@ -414,11 +414,23 @@ void WaypointServer::setWaypointFunction(
         else
           WaypointNavStatus.functions.obstacle_layer_controlle.enable = false;
       }
+      else if (waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["function"] ==
+               "stop_go")
+      {
+        WaypointNavStatus.functions.stop_go.function = true;
+
+        if (not static_cast<double>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
+                                                 ["properties"][i]["time_sec"]) == 0)
+        {
+          WaypointNavStatus.functions.stop_go.time_sec = static_cast<double>(
+              waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["time_sec"]);
+        }
+      }
     }
   }
   if (not(WaypointNavStatus.functions.goal.function | WaypointNavStatus.functions.loop.function |
           WaypointNavStatus.functions.waiting_line.function |
-          WaypointNavStatus.functions.stop.function))
+          WaypointNavStatus.functions.stop.function | WaypointNavStatus.functions.stop_go.function))
   {
     WaypointNavStatus.functions.next_waypoint.function = true;
   }
