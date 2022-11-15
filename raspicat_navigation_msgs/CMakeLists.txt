@@ -8,7 +8,7 @@ add_message_files(
   FILES
   Flag.msg
   Property.msg
-	Server.msg
+  Server.msg
   Waypoint.msg
   Waypoints.msg
   WaypointNavStatus.msg
@@ -22,6 +22,7 @@ add_message_files(
   loop.msg
   goal.msg
   next_waypoint.msg
+  obstacle_layer_controlle.msg
   param_change.msg
   slope.msg
   step.msg
