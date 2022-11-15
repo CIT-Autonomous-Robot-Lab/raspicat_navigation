@@ -74,6 +74,7 @@ class WaypointNav
   void clear_costmap_function();
   void waiting_line_function();
   void obstacle_layer_controlle_function();
+  void stop_go_function();
 
   void clearSaveParam();
 

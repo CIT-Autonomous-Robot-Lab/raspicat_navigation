@@ -27,6 +27,7 @@ add_message_files(
   slope.msg
   step.msg
   stop.msg
+  stop_go.msg
   variable_waypoint_radius.msg
   waiting_line.msg
 )

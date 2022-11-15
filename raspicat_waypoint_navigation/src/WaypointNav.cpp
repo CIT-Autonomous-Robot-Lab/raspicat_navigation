@@ -542,6 +542,17 @@ void WaypointNav::obstacle_layer_controlle_function()
   }
 }
 
+void WaypointNav::stop_go_function()
+{
+  if (WaypointNavStatus_.functions.stop_go.function)
+  {
+    if (way_srv_->checkGoalReach(WaypointNavStatus_))
+    {
+      way_srv_->setNextWaypoint(ac_move_base_, goal_, waypoint_yaml_, WaypointNavStatus_);
+    }
+  }
+}
+
 void WaypointNav::Run()
 {
   ROS_INFO("%s: Please ' rostopic pub -1 /way_nav_start std_msgs/Empty ' ",
@@ -575,6 +586,7 @@ void WaypointNav::Run()
       next_waypoint_function();
       waiting_line_function();
       stop_function();
+      stop_go_function();
       goal_function();
       loop_function();
       attention_speak_function_function();
