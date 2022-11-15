@@ -478,12 +478,17 @@ void WaypointNav::waiting_line_function()
   {
     if (not WaypointNavStatus_.flags.waiting_line)
     {
+      ac_move_base_.cancelAllGoals();
+
       way_helper_["WaitingLine"]->run();
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.3");
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
 
+      sleep(20);
+
+      way_srv_->sendWaypoint(ac_move_base_, goal_);
       WaypointNavStatus_.flags.waiting_line = true;
       // WaypointNavStatus_.flags.high_priority_proc = true;
     }
@@ -510,6 +515,30 @@ void WaypointNav::clearSaveParam()
       if (not WaypointNavStatus_.functions.param_change.function)
         way_srv_->clearSaveParam(WaypointNavStatus_);
     }
+  }
+}
+
+void WaypointNav::obstacle_layer_controlle_function()
+{
+  if (WaypointNavStatus_.functions.obstacle_layer_controlle.function &&
+      not WaypointNavStatus_.flags.obstacle_layer_controlle)
+  {
+    ac_move_base_.cancelAllGoals();
+
+    if (WaypointNavStatus_.functions.obstacle_layer_controlle.enable)
+    {
+      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "true");
+      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "true");
+    }
+    else
+    {
+      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
+      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
+    }
+    sleep(20);
+
+    way_srv_->sendWaypoint(ac_move_base_, goal_);
+    WaypointNavStatus_.flags.obstacle_layer_controlle = true;
   }
 }
 
@@ -542,6 +571,7 @@ void WaypointNav::Run()
       way_srv_->setWaypointFunction(waypoint_yaml_, WaypointNavStatus_);
 
       // function
+      obstacle_layer_controlle_function();
       next_waypoint_function();
       waiting_line_function();
       stop_function();
