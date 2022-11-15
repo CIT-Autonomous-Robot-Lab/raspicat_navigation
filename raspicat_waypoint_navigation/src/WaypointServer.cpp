@@ -403,6 +403,17 @@ void WaypointServer::setWaypointFunction(
       {
         WaypointNavStatus.functions.waiting_line.function = true;
       }
+      else if (waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["function"] ==
+               "obstacle_layer_controller")
+      {
+        WaypointNavStatus.functions.obstacle_layer_controlle.function = true;
+
+        if (static_cast<bool>(
+                waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"][i]["enable"]))
+          WaypointNavStatus.functions.obstacle_layer_controlle.enable = true;
+        else
+          WaypointNavStatus.functions.obstacle_layer_controlle.enable = false;
+      }
     }
   }
   if (not(WaypointNavStatus.functions.goal.function | WaypointNavStatus.functions.loop.function |

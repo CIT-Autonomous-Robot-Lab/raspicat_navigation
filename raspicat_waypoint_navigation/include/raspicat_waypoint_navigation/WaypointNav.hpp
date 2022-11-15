@@ -73,6 +73,7 @@ class WaypointNav
   void slope_function();
   void clear_costmap_function();
   void waiting_line_function();
+  void obstacle_layer_controlle_function();
 
   void clearSaveParam();
 
