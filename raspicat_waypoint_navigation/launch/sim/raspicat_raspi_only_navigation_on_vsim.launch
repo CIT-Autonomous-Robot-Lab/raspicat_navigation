@@ -29,14 +29,14 @@
     <arg name="a_mcl"       default="-0.013"/>
 
     <!-- Gazebo -->
-    <include if="$(eval pc=='true')" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
+    <include if="$(arg pc)" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
       <arg name="x_init_pos"    value="$(arg x_gazebo)"/>
       <arg name="y_init_pos"    value="$(arg y_gazebo)"/>
       <arg name="yaw_init_pos"  value="$(arg yaw_gazebo)"/>
       <arg name="open_gui"      value="$(arg open_gazebo)"/>
     </include>
     
-    <group if="$(eval raspi=='true')">
+    <group if="$(arg raspi)">
       <!-- Amcl -->
       <group if="$(eval mcl=='amcl')">
         <include file="$(find raspicat_waypoint_navigation)/launch/amcl.launch">
@@ -76,14 +76,14 @@
     <arg name="a_mcl"       default="1.626"/>
 
     <!-- Gazebo -->
-    <include if="$(eval pc=='true')" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
+    <include if="$(arg pc)" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
       <arg name="x_init_pos"    value="$(arg x_gazebo)"/>
       <arg name="y_init_pos"    value="$(arg y_gazebo)"/>
       <arg name="yaw_init_pos"  value="$(arg yaw_gazebo)"/>
       <arg name="open_gui"      value="$(arg open_gazebo)"/>
     </include>
     
-    <group if="$(eval raspi=='true')">
+    <group if="$(arg raspi)">
       <!-- Amcl -->
       <group if="$(eval mcl=='amcl')">
         <include file="$(find raspicat_waypoint_navigation)/launch/amcl.launch">
@@ -123,14 +123,14 @@
     <arg name="a_mcl"       default="0.0"/>
 
     <!-- Gazebo -->
-    <include if="$(eval pc=='true')" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
+    <include if="$(arg pc)" file="$(find raspicat_map2gazebo)/launch/raspicat_$(arg world_name)_world.launch">
       <arg name="x_init_pos"    value="$(arg x_gazebo)"/>
       <arg name="y_init_pos"    value="$(arg y_gazebo)"/>
       <arg name="yaw_init_pos"  value="$(arg yaw_gazebo)"/>
       <arg name="open_gui"      value="$(arg open_gazebo)"/>
     </include>
     
-    <group if="$(eval raspi=='true')">
+    <group if="$(arg raspi)">
       <!-- Amcl -->
       <group if="$(eval mcl=='amcl')">
         <include file="$(find raspicat_waypoint_navigation)/launch/amcl.launch">
@@ -159,7 +159,7 @@
     </group>
   </group>
 
-  <group if="$(eval raspi=='true')">
+  <group if="$(arg raspi)">
     <!-- Map_server -->
     <node pkg="map_server" name="mcl_map_server" type="map_server" args="$(arg mcl_map_file)"/>
 
