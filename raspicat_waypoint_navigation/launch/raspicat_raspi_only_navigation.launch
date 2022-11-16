@@ -21,7 +21,7 @@
   <arg name="move_base_map_file"    default="$(find raspicat_waypoint_navigation)/config/maps/for_move_base/map_$(arg world_name).yaml"/>
   <arg name="waypoint_yaml_file"    default="$(find raspicat_waypoint_navigation)/config/waypoint/waypoint_$(arg world_name).yaml"/>
 
-  <arg name="mcl"                   default="amcl" doc="model type [amcl, emcl2, mcl_ros]"/>
+  <arg name="mcl"                   default="emcl2" doc="model type [amcl, emcl2, mcl_ros]"/>
   <arg name="mcl_init_pose_x"       default="0.0"/>
   <arg name="mcl_init_pose_y"       default="0.0"/>
   <arg name="mcl_init_pose_a"       default="0.0"/>
