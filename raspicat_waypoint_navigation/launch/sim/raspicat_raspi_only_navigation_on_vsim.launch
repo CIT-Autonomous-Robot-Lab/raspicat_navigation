@@ -18,6 +18,9 @@
   <arg name="cmd_vel_out" default="/cmd_vel"/>
   <arg name="config_topics" default="$(find raspicat_waypoint_navigation)/config/param/twist_mux_topics.yaml"/>
 
+	<!-- Parameters -->
+  <param name="/use_sim_time" value="true"/>
+
   <!-- Tsudanuma 2 19 -->
   <group if="$(eval world_name=='tsudanuma_2_19')">
     <arg name="x_gazebo"    default="0.155971128532"/>
