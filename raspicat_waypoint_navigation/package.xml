@@ -22,6 +22,7 @@
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>raspicat_gazebo</exec_depend>
   <exec_depend>raspicat_description</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
 
   <depend>std_msgs</depend>
   <depend>raspicat_navigation_msgs</depend>
