@@ -1,4 +1,4 @@
-shutdown_costmaps: false
+shutdown_costmaps: true
 
 obstacles_layer:
   enabled: true

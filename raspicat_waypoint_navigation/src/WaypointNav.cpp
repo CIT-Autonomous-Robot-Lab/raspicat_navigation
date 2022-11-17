@@ -316,17 +316,6 @@ void WaypointNav::stop_function()
       }
       else
       {
-        if (timer_for_function_.find("speak_stop") == timer_for_function_.end())
-        {
-          ros::Timer speak_stop;
-          speak_stop = nh_.createTimer(ros::Duration(0.1), [&](auto &) {
-            std_msgs::Empty msg;
-            way_stop_.publish(msg);
-            sleep(6.0);
-          });
-          timer_for_function_["speak_stop"] = speak_stop;
-        }
-
         // stop after param change function
         if (WaypointNavStatus_.flags.stop_after_and_keep &&
             not WaypointNavStatus_.flags.high_priority_proc)
@@ -340,6 +329,17 @@ void WaypointNav::stop_function()
 
             WaypointNavStatus_.flags.param_change = true;
           }
+        }
+
+        if (timer_for_function_.find("speak_stop") == timer_for_function_.end())
+        {
+          ros::Timer speak_stop;
+          speak_stop = nh_.createTimer(ros::Duration(0.1), [&](auto &) {
+            std_msgs::Empty msg;
+            way_stop_.publish(msg);
+            sleep(6.0);
+          });
+          timer_for_function_["speak_stop"] = speak_stop;
         }
       }
   }
