@@ -374,11 +374,11 @@ void WaypointServer::setWaypointFunction(
             WaypointNavStatus.functions.param_change.param_value.push_back(
                 static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
                                                  ["properties"][i]["param_value"]));
-            if (not checkElementDuplication(
-                    static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
-                                                     ["properties"][i]["param_name"]),
-                    WaypointNavStatus.servers.param_change.param_name_save))
-              saveParam(WaypointNavStatus);
+            // if (not checkElementDuplication(
+            //         static_cast<string>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]
+            //                                          ["properties"][i]["param_name"]),
+            //         WaypointNavStatus.servers.param_change.param_name_save))
+            //   saveParam(WaypointNavStatus);
           }
 
           if (static_cast<bool>(waypoint_yaml[WaypointNavStatus.waypoint_current_id]["properties"]

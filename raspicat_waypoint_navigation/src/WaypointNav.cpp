@@ -539,7 +539,7 @@ void WaypointNav::obstacle_layer_controlle_function()
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
     }
-    sleep(40);
+    sleep(60);
 
     way_srv_->sendWaypoint(ac_move_base_, goal_);
     WaypointNavStatus_.flags.obstacle_layer_controlle = true;
@@ -606,7 +606,7 @@ void WaypointNav::Run()
       // When change waypoint
       if (WaypointNavStatus_.waypoint_previous_id != WaypointNavStatus_.waypoint_current_id)
       {
-        clearSaveParam();
+        // clearSaveParam();
         way_srv_->setFalseWaypointFlag(WaypointNavStatus_);
       }
     }
