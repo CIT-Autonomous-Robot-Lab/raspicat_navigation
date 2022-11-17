@@ -29,6 +29,8 @@ waypoints:
       y: 5.909473
     euler_angle:
       z: 3.130364591899961
+    properties:
+      - function: clear_costmap
   - id: 6
     position:
       x: 60.450546
@@ -65,6 +67,8 @@ waypoints:
       y: -25.194139
     euler_angle:
       z: -3.131298610669695
+    properties:
+      - function: stop
   - id: 12
     position:
       x: -44.786896
@@ -95,11 +99,17 @@ waypoints:
       z: 2.123254468219335
   - id: 16
     position:
-      x: -233.509521
-      y: 2.189323
+      x: -233.2303009033203
+      y: 18.29995346069336
     euler_angle:
       z: 1.582036549224253
-  - id: 18
+    properties:
+      - function: stop_go
+      - function: waiting_line
+      - function: param_change
+        param_name: /emcl2_node/odom_fw_dev_per_fw
+        param_value: "0.2"
+  - id: 17
     position:
       x: -234.878
       y: 41.464
@@ -107,7 +117,9 @@ waypoints:
       z: 1.595640445749372
     properties:
       - function: stop
-  - id: 19
+      - function: param_change
+        stop_after_and_keep: true
+  - id: 18
     position:
       x: -236.017
       y: 44.176
@@ -115,34 +127,50 @@ waypoints:
       z: 2.299
     properties:
       - function: stop
-  - id: 20
+      - function: param_change
+        stop_after_and_keep: true
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_x
+        param_value: "0.9"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_trans
+        param_value: "0.9"
+  - id: 19
+    position:
+      x: -255.45323181152344
+      y: 42.4299430847168
+    euler_angle:
+      z: -3.124212430644687
+    properties:
+      - function: stop_go
+      - function: obstacle_layer_controlle
+        enable: true
+  - id: 19
     position:
       x: -252.908600
       y: 32.108791
     euler_angle:
       z: -3.124212430644687
     properties:
-      - function: variable_speed 
-        vel_trans: 0.9 
-  - id: 21
+  - id: 20
     position:
       x: -385.231781
       y: 23.704357
     euler_angle:
       z: -3.12421043071974
-  - id: 22
+  - id: 21
     position:
       x: -527.134766
       y: 14.466932
     euler_angle:
       z: 1.942178013562939
-  - id: 23
+  - id: 22
     position:
       x: -528.674316
       y: 40.434784
     euler_angle:
       z: 0.04147297245961398
-  - id: 24
+  - id: 23
     position:
       x: -378.544006
       y: 49.743500
@@ -150,49 +178,49 @@ waypoints:
       z: 1.621422111596859
     properties:
       - function: stop
-  - id: 25
+  - id: 24
     position:
       x: -378.509613
       y: 67.508179
     euler_angle:
       z: 1.614631968107936
-  - id: 26
+  - id: 25
     position:
       x: -380.796600
       y: 131.166107
     euler_angle:
       z: 2.3109672172004
-  - id: 27
+  - id: 26
     position:
       x: -437.011475
       y: 134.384155
     euler_angle:
       z: 1.113368220887303
-  - id: 28
+  - id: 27
     position:
       x: -365.128021
       y: 203.256836
     euler_angle:
       z: 1.687521033392737
-  - id: 29
+  - id: 28
     position:
       x: -384.604004
       y: 279.355652
     euler_angle:
       z: 1.424990473371643
-  - id: 30
+  - id: 29
     position:
       x: -387.026306
       y: 287.192474
     euler_angle:
       z: 2.78095562893758
-  - id: 31
+  - id: 30
     position:
       x: -393.507202
       y: 284.132385
     euler_angle:
       z: -1.983452355784624
-  - id: 32
+  - id: 31
     position:
       x: -386.801453
       y: 277.813354
@@ -200,25 +228,25 @@ waypoints:
       z: -0.845199547341102
     properties:
       - function: clear_costmap
-  - id: 33
+  - id: 32
     position:
       x: -365.246918
       y: 205.115997
     euler_angle:
       z: -1.639581689479845
-  - id: 34
+  - id: 33
     position:
       x: -436.212219
       y: 136.159103
     euler_angle:
       z: -2.039035685153904
-  - id: 35
+  - id: 34
     position:
       x: -382.129059
       y: 132.614441
     euler_angle:
       z: -0.8520910410806566
-  - id: 36
+  - id: 35
     position:
       x: -377.593842
       y: 58.392014
@@ -226,19 +254,19 @@ waypoints:
       z: -1.511135934347316
     properties:
       - function: stop
-  - id: 37
+  - id: 36
     position:
       x: -376.819763
       y: 47.834438
     euler_angle:
       z: -1.546826230435682
-  - id: 38
+  - id: 37
     position:
       x: -268.964325
       y: 53.697281
     euler_angle:
       z: 0.02397057812987367
-  - id: 39
+  - id: 38
     position:
       x: -258.003357
       y: 46.958920
@@ -246,7 +274,7 @@ waypoints:
       z: 0.02396857827314057
     properties:
       - function: stop
-  - id: 40
+  - id: 39
     position:
       x: -250.924652
       y: 46.830696
@@ -254,25 +282,25 @@ waypoints:
       z: 0.05253404301220438
     properties:
       - function: stop
-  - id: 41
+  - id: 40
     position:
       x: -234.267807
       y: 47.432869
     euler_angle:
       z: 0.02396457855953057
-  - id: 42
+  - id: 41
     position:
       x: -233.009094
       y: 41.366478
     euler_angle:
       z: -1.546823402209754
-  - id: 43
+  - id: 42
     position:
       x: -230.121933
       y: -39.221653
     euler_angle:
       z: -1.063990443064607
-  - id: 44
+  - id: 43
     position:
       x: -143.142273
       y: -40.000992
@@ -280,7 +308,7 @@ waypoints:
       z: 0.00720401206807227
     properties:
       - function: stop
-  - id: 45
+  - id: 44
     position:
       x: -70.006279
       y: -36.592751
