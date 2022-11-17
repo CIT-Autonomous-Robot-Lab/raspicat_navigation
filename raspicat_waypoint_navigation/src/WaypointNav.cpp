@@ -483,7 +483,8 @@ void WaypointNav::waiting_line_function()
       way_helper_["WaitingLine"]->run();
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
-      way_helper_["ParamChange"]->run("/move_base/global_costmap/cost_scaling_factor", "15");
+      way_helper_["ParamChange"]->run(
+          "/move_base/global_costmap/inflation_layer/cost_scaling_factor", "8");
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.3");
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
 
@@ -530,14 +531,15 @@ void WaypointNav::obstacle_layer_controlle_function()
     {
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "true");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "true");
-      way_helper_["ParamChange"]->run("/move_base/global_costmap/cost_scaling_factor", "5");
+      way_helper_["ParamChange"]->run(
+          "/move_base/global_costmap/inflation_layer/cost_scaling_factor", "1");
     }
     else
     {
       way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
       way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
     }
-    sleep(20);
+    sleep(40);
 
     way_srv_->sendWaypoint(ac_move_base_, goal_);
     WaypointNavStatus_.flags.obstacle_layer_controlle = true;
