@@ -488,7 +488,7 @@ void WaypointNav::waiting_line_function()
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_x", "0.3");
       way_helper_["ParamChange"]->run("/move_base/DWAPlannerROS/max_vel_trans", "0.3");
 
-      sleep(20);
+      sleep(60);
 
       way_srv_->sendWaypoint(ac_move_base_, goal_);
       WaypointNavStatus_.flags.waiting_line = true;
