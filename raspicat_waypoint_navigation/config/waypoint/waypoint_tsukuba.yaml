@@ -103,6 +103,7 @@ waypoints:
       y: 18.29995346069336
     euler_angle:
       z: 1.582036549224253
+    properties:
       - function: stop_go
   - id: 17
     position:
