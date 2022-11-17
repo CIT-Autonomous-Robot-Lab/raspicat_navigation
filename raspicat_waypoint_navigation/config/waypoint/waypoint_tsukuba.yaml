@@ -143,14 +143,15 @@ waypoints:
       z: -3.124212430644687
     properties:
       - function: stop_go
-      - function: obstacle_layer_controlle
-        enable: true
   - id: 19
     position:
       x: -252.908600
       y: 32.108791
     euler_angle:
       z: -3.124212430644687
+    properties:
+      - function: obstacle_layer_controlle
+        enable: true
   - id: 20
     position:
       x: -385.231781
