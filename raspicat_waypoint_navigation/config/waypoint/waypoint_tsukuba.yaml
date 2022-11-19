@@ -136,6 +136,12 @@ waypoints:
       - function: param_change
         param_name: /emcl2_node/odom_fw_dev_per_fw
         param_value: "0.5"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/xy_goal_tolerance
+        param_value: "1.0"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/yaw_goal_tolerance
+        param_value: "0.8"
   - id: 19
     position:
       x: -255.45323181152344
@@ -157,6 +163,12 @@ waypoints:
       - function: param_change
         param_name: /move_base/DWAPlannerROS/max_vel_trans
         param_value: "0.6"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/xy_goal_tolerance
+        param_value: "0.3"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/yaw_goal_tolerance
+        param_value: "0.17"
       - function: obstacle_layer_controlle
         enable: true
   - id: 21
@@ -165,12 +177,20 @@ waypoints:
       y: 23.704357
     euler_angle:
       z: -3.12421043071974
+    properties:
+      - function: param_change
+        param_name: /emcl2_node/odom_fw_dev_per_fw
+        param_value: "0.05"
   - id: 22
     position:
       x: -527.134766
       y: 14.466932
     euler_angle:
       z: 1.942178013562939
+    properties:
+      - function: param_change
+        param_name: /emcl2_node/odom_fw_dev_per_fw
+        param_value: "0.5"
   - id: 23
     position:
       x: -528.674316
@@ -276,8 +296,8 @@ waypoints:
       z: -1.546826230435682
   - id: 38
     position:
-      x: -268.964325
-      y: 53.697281
+      x: -266.108
+      y: 53.746
     euler_angle:
       z: 0.02397057812987367
     properties:
@@ -287,8 +307,8 @@ waypoints:
         param_value: "0.2"
   - id: 39
     position:
-      x: -258.003357
-      y: 46.958920
+      x: -256.868
+      y: 45.774
     euler_angle:
       z: 0.02396857827314057
     properties:
