@@ -61,6 +61,8 @@ waypoints:
       y: -24.698593
     euler_angle:
       z: -3.135956645964536
+    properties:
+      - function: stop_go
   - id: 11
     position:
       x: -23.767729
@@ -69,12 +71,21 @@ waypoints:
       z: -3.131298610669695
     properties:
       - function: stop
+      - function: waiting_line
   - id: 12
     position:
       x: -44.786896
       y: -33.015598
     euler_angle:
       z: 3.135876646288887
+    properties:
+      - function: stop_go
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_x
+        param_value: "0.6"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/max_vel_trans
+        param_value: "0.6"
   - id: 13
     position:
       x: -59.262520
@@ -83,6 +94,8 @@ waypoints:
       z: 3.135676647180349
     properties:
       - function: stop
+      - function: obstacle_layer_controlle
+        enable: true
   - id: 14
     position:
       x: -136.439514
