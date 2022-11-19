@@ -107,8 +107,8 @@ waypoints:
       - function: stop_go
   - id: 17
     position:
-      x: -234.878
-      y: 41.652
+      x: -234.952
+      y: 42.047
     euler_angle:
       z: 1.595640445749372
     properties:
@@ -119,8 +119,8 @@ waypoints:
         param_value: "0.2"
   - id: 18
     position:
-      x: -236.017
-      y: 44.176
+      x: -235.761
+      y: 43.017
     euler_angle:
       z: 2.299
     properties:
@@ -319,8 +319,8 @@ waypoints:
         param_value: "0.5"
   - id: 40
     position:
-      x: -249.922
-      y: 47.260
+      x: -250.368
+      y: 47.322
     euler_angle:
       z: 0.05253404301220438
     properties:
