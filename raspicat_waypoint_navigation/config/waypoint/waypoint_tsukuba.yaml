@@ -119,8 +119,8 @@ waypoints:
         param_value: "0.2"
   - id: 18
     position:
-      x: -235.761
-      y: 43.017
+      x: -236.303
+      y: 44.119
     euler_angle:
       z: 2.299
     properties:
