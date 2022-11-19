@@ -1,5 +1,5 @@
 #Global
-planner_frequency: 1.0
+planner_frequency: 2.0
 planner_patience: 3600
 base_global_planner: global_planner/GlobalPlanner
 
