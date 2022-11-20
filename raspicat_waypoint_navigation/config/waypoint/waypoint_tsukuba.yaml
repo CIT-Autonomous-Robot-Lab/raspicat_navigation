@@ -123,7 +123,7 @@ waypoints:
         enable: false
   - id: 16
     position:
-      x: -233.798 
+      x: -233.798
       y: 18.091
     euler_angle:
       z: 1.582036549224253
@@ -141,6 +141,9 @@ waypoints:
       - function: param_change
         param_name: /emcl2_node/odom_fw_dev_per_fw
         param_value: "0.2"
+      - function: param_change
+        param_name: /move_base/DWAPlannerROS/xy_goal_tolerance
+        param_value: "0.4"
   - id: 18
     position:
       x: -236.303
