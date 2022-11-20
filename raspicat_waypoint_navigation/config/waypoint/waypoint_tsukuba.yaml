@@ -106,25 +106,14 @@ waypoints:
       - function: stop
   - id: 15
     position:
-      x: -231.741
-      y: -32.024
+      x: -228.966125
+      y: -40.977612
     euler_angle:
-      z: 1.582036549224253
-    properties:
-      - function: stop_go
-  - id: 17
-    position:
-      x: -233.570297241
-      y: -7.1427116394
-    euler_angle:
-      z: 1.595640445749372
-    properties:
-      - function: obstacle_layer_controlle
-        enable: false
+      z: 2.123254468219335
   - id: 16
     position:
-      x: -233.798
-      y: 18.091
+      x: -233.2303009033203
+      y: 18.29995346069336
     euler_angle:
       z: 1.582036549224253
     properties:
@@ -141,9 +130,6 @@ waypoints:
       - function: param_change
         param_name: /emcl2_node/odom_fw_dev_per_fw
         param_value: "0.2"
-      - function: param_change
-        param_name: /move_base/DWAPlannerROS/xy_goal_tolerance
-        param_value: "0.4"
   - id: 18
     position:
       x: -236.303
@@ -169,6 +155,9 @@ waypoints:
       - function: param_change
         param_name: /move_base/DWAPlannerROS/yaw_goal_tolerance
         param_value: "0.8"
+      - function: param_change
+        param_name: /emcl2_node/emcl2_node/alpha_threshold
+        param_value: "0.0"
   - id: 19
     position:
       x: -255.45323181152344
@@ -198,6 +187,9 @@ waypoints:
         param_value: "0.17"
       - function: obstacle_layer_controlle
         enable: true
+      - function: param_change
+        param_name: /emcl2_node/emcl2_node/alpha_threshold
+        param_value: "0.3"
   - id: 21
     position:
       x: -385.231781
@@ -401,8 +393,8 @@ waypoints:
       - function: stop
   - id: 45
     position:
-      x: -70.006279
-      y: -36.592751
+      x: -73.873
+      y: -37.089
     euler_angle:
       z: -0.02602474327628795
     properties:
