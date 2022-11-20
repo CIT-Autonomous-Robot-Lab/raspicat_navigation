@@ -22,8 +22,8 @@
   <arg name="waypoint_yaml_file"    default="$(find raspicat_waypoint_navigation)/config/waypoint/waypoint_$(arg world_name).yaml"/>
 
   <arg name="mcl"                   default="emcl2" doc="model type [amcl, emcl2, mcl_ros]"/>
-  <arg name="mcl_init_pose_x"       default="0.0"/>
-  <arg name="mcl_init_pose_y"       default="0.0"/>
+  <arg name="mcl_init_pose_x"       default="0.818280100822"/>
+  <arg name="mcl_init_pose_y"       default="4.0596075058"/>
   <arg name="mcl_init_pose_a"       default="0.0"/>
 
   <arg name="cmd_vel_out" default="/cmd_vel"/>
