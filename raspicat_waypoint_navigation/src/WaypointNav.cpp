@@ -536,8 +536,10 @@ void WaypointNav::obstacle_layer_controlle_function()
     }
     else
     {
-      way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
-      way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
+      //way_helper_["ParamChange"]->run("/move_base/global_costmap/obstacles_layer/enabled", "false");
+      //way_helper_["ParamChange"]->run("/move_base/local_costmap/obstacles_layer/enabled", "false");
+      way_helper_["ParamChange"]->run(
+          "/move_base/global_costmap/inflation_layer/cost_scaling_factor", "8");
     }
     sleep(60);
 

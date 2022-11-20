@@ -106,14 +106,25 @@ waypoints:
       - function: stop
   - id: 15
     position:
-      x: -228.966125
-      y: -40.977612
+      x: -231.741
+      y: -32.024
     euler_angle:
-      z: 2.123254468219335
+      z: 1.582036549224253
+    properties:
+      - function: stop_go
+  - id: 17
+    position:
+      x: -233.570297241
+      y: -7.1427116394
+    euler_angle:
+      z: 1.595640445749372
+    properties:
+      - function: obstacle_layer_controlle
+        enable: false
   - id: 16
     position:
-      x: -233.2303009033203
-      y: 18.29995346069336
+      x: -233.798 
+      y: 18.091
     euler_angle:
       z: 1.582036549224253
     properties:
