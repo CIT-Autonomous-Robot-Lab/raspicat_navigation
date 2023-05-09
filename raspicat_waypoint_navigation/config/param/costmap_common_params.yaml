@@ -5,8 +5,8 @@ obstacles_layer:
   combination_method: 1
   footprint_clearing_enabled: true
   track_unknown_space: false
-  obstacle_range: 3
-  raytrace_range: 3.5
+  obstacle_range: 5
+  raytrace_range: 5.5
 
   observation_sources: scan left_side_usensor left_front_usensor right_front_usensor right_side_usensor
   scan:

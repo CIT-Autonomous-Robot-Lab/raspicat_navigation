@@ -6,13 +6,13 @@ inflation_radius: 0.8
 cost_scaling_factor: 10
 
 update_frequency: 10
-publish_frequency: 5
+publish_frequency: 1
 transform_tolerance: 2
 
 rolling_window: true
-width: 5
-height: 5
-resolution: 0.05
+width: 10
+height: 10
+resolution: 0.2
 always_send_full_costmap: true
 
 plugins:
